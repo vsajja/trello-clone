@@ -31,10 +31,42 @@ class TrelloCloneService {
         return boards
     }
 
-    public List<Board> createBoard() {
-        List<Board> boards = context.selectFrom(BOARD)
-                .fetch()
+    /**
+     *
+     * @param boardId
+     * @return
+     * null if the board is not found
+     */
+    public Board getBoard(String boardId) {
+        Board board = null
+        def boardData = context.selectFrom(BOARD)
+                .where(BOARD.BOARD_ID.equal(boardId))
+                .fetchOne()
+        if (boardData) {
+            board = boardData.into(Board.class)
+        }
+        return board
+    }
+
+    public Board createBoard(String name) {
+        Board board = context.insertInto(BOARD)
+                .set(BOARD.NAME, name)
+                .returning()
+                .fetchOne()
                 .into(Board.class)
-        return boards
+        return board
+    }
+
+    /**
+     *
+     * @param boardId
+     * @return
+     * the number of deleted records
+     */
+    public int deleteBoard(String boardId) {
+        def result = context.delete(BOARD)
+                .where(BOARD.BOARD_ID.equal(boardId))
+                .execute()
+        return result
     }
 }

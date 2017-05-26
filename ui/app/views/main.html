@@ -1,23 +1,61 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<div class="row">
+  <div class="col-sm-12" style="text-align: center">
+    <h2>Welcome to the <span style="color: gray"><i class="fa fa-trello fa-1x" aria-hidden="true"></i>  <strong>Trello-clone</strong></span>
+      project!</h2>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+    <div>
+      <div class="col-sm-4" />
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+      <div class="col-sm-4">
+        <div class="panel panel-default" style="text-align: left">
+          <div class="panel-heading">
+            <h4>Login</h4>
+            <p style="color: red">Note: Username and password must match to login.</p>
+          </div>
+          <div class="panel-body">
+            <div class="box box-info">
+              <div class="box-body">
+                <!-- FORM -->
+                <form ng-submit="login()">
+                  <!-- USERNAME -->
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username"
+                           ng-model="user.username"
+                           required>
+                    <span class="help-block"></span>
+                  </div>
+
+                  <!-- PASSWORD -->
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password"
+                           ng-model="user.password" required>
+                    <span class="help-block"></span>
+                  </div>
+
+                  <!-- SUBMIT BUTTON -->
+                  <button type="submit" class="btn btn-success btn-lg btn-block">
+                    Login
+                  </button>
+                </form>
+
+                <!--<br/>-->
+
+                <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
+                <!--class="form-control">{{ user }}</textarea>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4" />
+    </div>
+  </div>
 </div>

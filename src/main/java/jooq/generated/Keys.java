@@ -35,6 +35,7 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<BoardRecord, Integer> IDENTITY_BOARD = Identities0.IDENTITY_BOARD;
+	public static final Identity<UserRecord, Integer> IDENTITY_USER = Identities0.IDENTITY_USER;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -54,6 +55,7 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<BoardRecord, Integer> IDENTITY_BOARD = createIdentity(Board.BOARD, Board.BOARD.BOARD_ID);
+		public static Identity<UserRecord, Integer> IDENTITY_USER = createIdentity(User.USER, User.USER.USER_ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {

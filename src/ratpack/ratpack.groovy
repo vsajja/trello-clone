@@ -1,4 +1,5 @@
 import com.zaxxer.hikari.HikariConfig
+import jooq.generated.tables.pojos.Board
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.trelloclone.TrelloCloneService
@@ -9,6 +10,7 @@ import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
+import static ratpack.jackson.Jackson.jsonNode
 
 final Logger log = LoggerFactory.getLogger(this.class)
 
@@ -43,6 +45,46 @@ ratpack {
                     get {
                         def boards = trelloCloneService.getBoards()
                         render json(boards)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def name = params.get('name')?.textValue()
+                            assert name
+
+                            trelloCloneService.createBoard(name)
+                        }.onError { Throwable e ->
+                            if(e.message.contains('unique constraint')) {
+                                clientError(409)
+                            }
+                        }.then { Board board ->
+                            render json(board)
+                        }
+                    }
+                }
+            }
+
+            path('boards/:boardId') {
+                def boardId = pathTokens['boardId']
+                byMethod {
+                    get {
+                        def board = trelloCloneService.getBoard(boardId)
+                        if(board) {
+                            render json(board)
+                        }
+                        else {
+                            clientError(404)
+                        }
+                    }
+
+                    delete {
+                        int result = trelloCloneService.deleteBoard(boardId)
+                        if(result > 0) {
+                            response.send()
+                        }
+                        else {
+                            clientError(404)
+                        }
                     }
                 }
             }

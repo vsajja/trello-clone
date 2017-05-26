@@ -1,0 +1,59 @@
+<table st-table="boardCollection" st-safe-src="boardList" class="table table-striped">
+  <tr>
+    <th colspan="10"><input st-search="" class="form-control" placeholder="Search boards..." type="text"/></th>
+  </tr>
+  <tbody>
+    <tr ng-repeat="board in boardCollection">
+      <td style="width: 200px; height: 100px; padding: 15px">
+        <div class="card-block">
+          <h4 class="card-title">
+            <a ng-href="#/board/{{board.boardId}}">{{board.name}}</a>
+            <i ng-click="deleteBoard(board.boardId)" class="fa fa-times-circle" style="color: red; float: right"
+               aria-hidden="true"></i>
+          </h4>
+          <!--<h6 class="text-muted">username</h6>-->
+          <p class="card-text">A really cool board description.</p>
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td class="text-center" st-pagination="" st-items-by-page="30" colspan="10">
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div>
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-create-board-modal-sm">Create Board</button>
+</div>
+
+<div class="modal fade bs-create-board-modal-sm" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content" style="padding: 5px">
+      <!-- FORM -->
+      <form ng-submit="createBoard()">
+        <!-- NAME -->
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" class="form-control" placeholder="Board name.."
+                 ng-model="newBoard.name"
+                 required>
+          <span class="help-block"></span>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" class="btn btn-success btn-block">
+          Create
+        </button>
+
+        <!--<br/>-->
+
+        <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
+        <!--class="form-control">{{ newBoard }}</textarea>-->
+      </form>
+  </div>
+</div>

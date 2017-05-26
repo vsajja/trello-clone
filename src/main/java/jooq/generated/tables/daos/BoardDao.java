@@ -63,4 +63,11 @@ public class BoardDao extends DAOImpl<BoardRecord, jooq.generated.tables.pojos.B
 	public jooq.generated.tables.pojos.Board fetchOneByBoardId(Integer value) {
 		return fetchOne(Board.BOARD.BOARD_ID, value);
 	}
+
+	/**
+	 * Fetch records that have <code>name IN (values)</code>
+	 */
+	public List<jooq.generated.tables.pojos.Board> fetchByName(String... values) {
+		return fetch(Board.BOARD.NAME, values);
+	}
 }

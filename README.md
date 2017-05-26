@@ -10,6 +10,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * GET /boards
     * GET /boards/{board_id}
     * POST /boards
+    * DELETE /boards/{board_id}
 
 # Database
 

@@ -27,4 +27,9 @@ public class Sequences {
 	 * The sequence <code>public.board_board_id_seq</code>
 	 */
 	public static final Sequence<Long> BOARD_BOARD_ID_SEQ = new SequenceImpl<Long>("board_board_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.user_user_id_seq</code>
+	 */
+	public static final Sequence<Long> USER_USER_ID_SEQ = new SequenceImpl<Long>("user_user_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 }

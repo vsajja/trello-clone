@@ -14,6 +14,7 @@ import jooq.generated.Public;
 import jooq.generated.tables.records.UserRecord;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -33,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-	private static final long serialVersionUID = -1165731870;
+	private static final long serialVersionUID = 342517758;
 
 	/**
 	 * The reference instance of <code>public.user</code>
@@ -51,7 +52,7 @@ public class User extends TableImpl<UserRecord> {
 	/**
 	 * The column <code>public.user.user_id</code>.
 	 */
-	public final TableField<UserRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+	public final TableField<UserRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.user.username</code>.
@@ -83,6 +84,14 @@ public class User extends TableImpl<UserRecord> {
 
 	private User(String alias, Table<UserRecord> aliased, Field<?>[] parameters) {
 		super(alias, Public.PUBLIC, aliased, parameters, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Identity<UserRecord, Integer> getIdentity() {
+		return Keys.IDENTITY_USER;
 	}
 
 	/**
