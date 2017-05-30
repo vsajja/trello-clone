@@ -7,10 +7,13 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Board;
+import jooq.generated.tables.BoardList;
 import jooq.generated.tables.User;
+import jooq.generated.tables.records.BoardListRecord;
 import jooq.generated.tables.records.BoardRecord;
 import jooq.generated.tables.records.UserRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
@@ -35,6 +38,7 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final Identity<BoardRecord, Integer> IDENTITY_BOARD = Identities0.IDENTITY_BOARD;
+	public static final Identity<BoardListRecord, Integer> IDENTITY_BOARD_LIST = Identities0.IDENTITY_BOARD_LIST;
 	public static final Identity<UserRecord, Integer> IDENTITY_USER = Identities0.IDENTITY_USER;
 
 	// -------------------------------------------------------------------------
@@ -42,12 +46,14 @@ public class Keys {
 	// -------------------------------------------------------------------------
 
 	public static final UniqueKey<BoardRecord> BOARD_PKEY = UniqueKeys0.BOARD_PKEY;
+	public static final UniqueKey<BoardListRecord> BOARD_LIST_PKEY = UniqueKeys0.BOARD_LIST_PKEY;
 	public static final UniqueKey<UserRecord> USER_PKEY = UniqueKeys0.USER_PKEY;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
+	public static final ForeignKey<BoardListRecord, BoardRecord> BOARD_LIST__BOARD_LIST_BOARD_BOARD_ID_FK = ForeignKeys0.BOARD_LIST__BOARD_LIST_BOARD_BOARD_ID_FK;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -55,11 +61,17 @@ public class Keys {
 
 	private static class Identities0 extends AbstractKeys {
 		public static Identity<BoardRecord, Integer> IDENTITY_BOARD = createIdentity(Board.BOARD, Board.BOARD.BOARD_ID);
+		public static Identity<BoardListRecord, Integer> IDENTITY_BOARD_LIST = createIdentity(BoardList.BOARD_LIST, BoardList.BOARD_LIST.BOARD_LIST_ID);
 		public static Identity<UserRecord, Integer> IDENTITY_USER = createIdentity(User.USER, User.USER.USER_ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<BoardRecord> BOARD_PKEY = createUniqueKey(Board.BOARD, Board.BOARD.BOARD_ID);
+		public static final UniqueKey<BoardListRecord> BOARD_LIST_PKEY = createUniqueKey(BoardList.BOARD_LIST, BoardList.BOARD_LIST.BOARD_LIST_ID);
 		public static final UniqueKey<UserRecord> USER_PKEY = createUniqueKey(User.USER, User.USER.USER_ID);
+	}
+
+	private static class ForeignKeys0 extends AbstractKeys {
+		public static final ForeignKey<BoardListRecord, BoardRecord> BOARD_LIST__BOARD_LIST_BOARD_BOARD_ID_FK = createForeignKey(jooq.generated.Keys.BOARD_PKEY, BoardList.BOARD_LIST, BoardList.BOARD_LIST.BOARD_ID);
 	}
 }

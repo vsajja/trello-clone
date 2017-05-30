@@ -7,6 +7,7 @@ package jooq.generated;
 import javax.annotation.Generated;
 
 import jooq.generated.tables.Board;
+import jooq.generated.tables.BoardList;
 import jooq.generated.tables.User;
 
 
@@ -27,6 +28,11 @@ public class Tables {
 	 * The table public.board
 	 */
 	public static final Board BOARD = jooq.generated.tables.Board.BOARD;
+
+	/**
+	 * The table public.board_list
+	 */
+	public static final BoardList BOARD_LIST = jooq.generated.tables.BoardList.BOARD_LIST;
 
 	/**
 	 * The table public.user

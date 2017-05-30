@@ -1,5 +1,6 @@
 import com.zaxxer.hikari.HikariConfig
 import jooq.generated.tables.pojos.Board
+import jooq.generated.tables.pojos.BoardList
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.trelloclone.TrelloCloneService
@@ -79,6 +80,43 @@ ratpack {
 
                     delete {
                         int result = trelloCloneService.deleteBoard(boardId)
+                        if(result > 0) {
+                            response.send()
+                        }
+                        else {
+                            clientError(404)
+                        }
+                    }
+                }
+            }
+
+            path('boards/:boardId/lists') {
+                def boardId = pathTokens['boardId']
+                byMethod {
+                    get {
+                        def lists = trelloCloneService.getBoardLists(boardId)
+                        render json(lists)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def name = params.get('name')?.textValue()
+                            assert name
+
+                            trelloCloneService.createBoardList(boardId, name)
+                        }.then { BoardList boardList ->
+                            render json(boardList)
+                        }
+                    }
+                }
+            }
+
+            path('boards/:boardId/lists/:boardListId') {
+                def boardId = pathTokens['boardId']
+                def boardListId = pathTokens['boardListId']
+                byMethod {
+                    delete {
+                        int result = trelloCloneService.deleteBoardList(boardListId)
                         if(result > 0) {
                             response.send()
                         }
