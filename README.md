@@ -37,6 +37,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
 
 * card
     * POST /lists/{list_id}/cards
+    * DELETE /cards/{card_id}
 
 # Database
 

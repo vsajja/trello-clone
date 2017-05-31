@@ -178,6 +178,21 @@ ratpack {
                     }
                 }
             }
+
+            path('cards/:cardId') {
+                def cardId = pathTokens['cardId']
+                byMethod {
+                    delete {
+                        int result = trelloCloneService.deleteCard(cardId)
+                        if(result > 0) {
+                            response.send()
+                        }
+                        else {
+                            clientError(404)
+                        }
+                    }
+                }
+            }
         }
 
         files {

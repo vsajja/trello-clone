@@ -41,6 +41,14 @@ angular.module('trelloCloneApp')
       });
     };
 
+    $scope.deleteCard = function (cardId) {
+      var card = Restangular.one('cards', cardId);
+      card.customDELETE().then(function () {
+        // refresh board lists
+        $scope.getBoardLists();
+      });
+    };
+
     $scope.deleteBoardList = function (listId) {
       var boardList = board.all('lists', listId);
       boardList.customDELETE(listId).then(function () {

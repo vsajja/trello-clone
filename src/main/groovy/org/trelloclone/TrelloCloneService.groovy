@@ -148,4 +148,17 @@ class TrelloCloneService {
     public void addCard(Card card) {
         cardDao.insert(card)
     }
+
+    /**
+     *
+     * @param cardId
+     * @return
+     * the number of deleted records
+     */
+    public int deleteCard(String cardId) {
+        def result = context.delete(CARD)
+                .where(CARD.CARD_ID.equal(cardId))
+                .execute()
+        return result
+    }
 }

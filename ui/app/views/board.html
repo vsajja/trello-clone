@@ -22,9 +22,9 @@ The dropped data will be added to the referenced list -->
                   dnd-moved="list.cards.splice($index, 1);updateLists()"
                   dnd-effect-allowed="move"
                   dnd-selected="boardLists.selected = card"
-                  ng-class="{'selected': boardLists.selected === card}"
               >
                 {{card.name}}
+                <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right" aria-hidden="true"></i>
               </li>
             </ul>
             <div class="panel-footer addCard">
@@ -39,7 +39,6 @@ The dropped data will be added to the referenced list -->
               </form>
             </div>
           </div>
-          </ul>
         </div>
       </div>
     </div>
