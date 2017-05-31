@@ -14,7 +14,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * Delete boards
 * board.html
     * View board lists including cards
-    * Drag & Drop cards onto lists
+    * Drag & drop cards onto lists
     * Create board lists
     * Delete board lists
 
