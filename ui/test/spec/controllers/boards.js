@@ -3,7 +3,7 @@
 describe('Controller: BoardsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('uiApp'));
+  beforeEach(module('trelloCloneApp'));
 
   var BoardsCtrl,
     scope;

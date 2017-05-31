@@ -1,6 +1,9 @@
 import com.zaxxer.hikari.HikariConfig
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
+import jooq.generated.tables.pojos.Card
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.trelloclone.TrelloCloneService
@@ -94,8 +97,8 @@ ratpack {
                 def boardId = pathTokens['boardId']
                 byMethod {
                     get {
-                        def lists = trelloCloneService.getBoardLists(boardId)
-                        render json(lists)
+                        def result = trelloCloneService.getBoardLists(boardId)
+                        render json(result)
                     }
 
                     post {
@@ -108,15 +111,47 @@ ratpack {
                             render json(boardList)
                         }
                     }
+
+                    put {
+                        parse(jsonNode()).map { params ->
+                            def boardLists = new JsonSlurper().parseText(params.toString())
+
+                            log.info(new JsonBuilder(boardLists).toPrettyString())
+
+                            def lists = (Map) boardLists
+
+                            List<Card> cardsToUpdate = new ArrayList<Card>()
+
+                            lists.each { id, list ->
+                                Integer listId = Integer.parseInt(id)
+
+                                list.cards.each { card ->
+//                                    log.info(card.cardId.toString())
+//                                    log.info(card.name)
+//                                    log.info(card.description)
+//                                    log.info(listId)
+
+                                    Card cardToUpdate = new Card(card.cardId, card.name, card.description, listId)
+                                    cardsToUpdate.add(cardToUpdate)
+                                }
+                            }
+
+                            log.info(cardsToUpdate.toListString())
+
+                            trelloCloneService.updateCards(cardsToUpdate)
+                        }.then {
+                            response.send()
+                        }
+                    }
                 }
             }
 
-            path('boards/:boardId/lists/:boardListId') {
+            path('boards/:boardId/lists/:listId') {
                 def boardId = pathTokens['boardId']
-                def boardListId = pathTokens['boardListId']
+                def listId = pathTokens['listId']
                 byMethod {
                     delete {
-                        int result = trelloCloneService.deleteBoardList(boardListId)
+                        int result = trelloCloneService.deleteBoardList(listId)
                         if(result > 0) {
                             response.send()
                         }

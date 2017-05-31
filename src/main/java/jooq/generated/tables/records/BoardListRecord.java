@@ -28,20 +28,20 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BoardListRecord extends UpdatableRecordImpl<BoardListRecord> implements Record3<Integer, String, Integer> {
 
-	private static final long serialVersionUID = 1719466147;
+	private static final long serialVersionUID = -7742206;
 
 	/**
-	 * Setter for <code>public.board_list.board_list_id</code>.
+	 * Setter for <code>public.board_list.list_id</code>.
 	 */
-	public BoardListRecord setBoardListId(Integer value) {
+	public BoardListRecord setListId(Integer value) {
 		setValue(0, value);
 		return this;
 	}
 
 	/**
-	 * Getter for <code>public.board_list.board_list_id</code>.
+	 * Getter for <code>public.board_list.list_id</code>.
 	 */
-	public Integer getBoardListId() {
+	public Integer getListId() {
 		return (Integer) getValue(0);
 	}
 
@@ -112,7 +112,7 @@ public class BoardListRecord extends UpdatableRecordImpl<BoardListRecord> implem
 	 */
 	@Override
 	public Field<Integer> field1() {
-		return BoardList.BOARD_LIST.BOARD_LIST_ID;
+		return BoardList.BOARD_LIST.LIST_ID;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class BoardListRecord extends UpdatableRecordImpl<BoardListRecord> implem
 	 */
 	@Override
 	public Integer value1() {
-		return getBoardListId();
+		return getListId();
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class BoardListRecord extends UpdatableRecordImpl<BoardListRecord> implem
 	 */
 	@Override
 	public BoardListRecord value1(Integer value) {
-		setBoardListId(value);
+		setListId(value);
 		return this;
 	}
 
@@ -207,10 +207,10 @@ public class BoardListRecord extends UpdatableRecordImpl<BoardListRecord> implem
 	/**
 	 * Create a detached, initialised BoardListRecord
 	 */
-	public BoardListRecord(Integer boardListId, String name, Integer boardId) {
+	public BoardListRecord(Integer listId, String name, Integer boardId) {
 		super(BoardList.BOARD_LIST);
 
-		setValue(0, boardListId);
+		setValue(0, listId);
 		setValue(1, name);
 		setValue(2, boardId);
 	}

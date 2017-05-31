@@ -64,6 +64,7 @@ task jooqCodegen {
                 .withGenerator(new org.jooq.util.jaxb.Generator()
                 .withGenerate(new Generate()
                 .withImmutablePojos(true)
+                .withPojosEqualsAndHashCode(true)
                 .withDaos(true)
                 .withFluentSetters(true))
                 .withDatabase(new org.jooq.util.jaxb.Database()

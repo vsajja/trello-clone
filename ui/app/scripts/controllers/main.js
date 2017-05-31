@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the uiApp
  */
-angular.module('uiApp')
+angular.module('trelloCloneApp')
   .controller('MainCtrl', function ($scope, $location) {
     this.awesomeThings = [
       'HTML5 Boilerplate',

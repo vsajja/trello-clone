@@ -7,7 +7,7 @@
  * # BoardCtrl
  * Controller of the uiApp
  */
-angular.module('uiApp')
+angular.module('trelloCloneApp')
   .controller('BoardCtrl', ['$scope', '$routeParams', 'Restangular', function ($scope, $routeParams, Restangular) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
@@ -25,15 +25,14 @@ angular.module('uiApp')
     };
 
     $scope.getBoardLists = function () {
-      board.getList('lists').then(function (boardLists) {
+      board.customGET('lists').then(function (boardLists) {
         $scope.boardLists = boardLists;
-        $scope.boardListCollection = [].concat($scope.boardLists);
       });
     };
 
-    $scope.deleteBoardList = function (boardListId) {
-      var boardList = board.all('lists', boardListId);
-      boardList.customDELETE(boardListId).then(function () {
+    $scope.deleteBoardList = function (listId) {
+      var boardList = board.all('lists', listId);
+      boardList.customDELETE(listId).then(function () {
         // refresh board lists
         $scope.getBoardLists();
       });
@@ -48,10 +47,25 @@ angular.module('uiApp')
       });
     };
 
+    $scope.createCard = function () {
+      console.log('create card for list');
+    };
+
     function initController() {
       $scope.getBoard();
       $scope.getBoardLists();
     }
 
     initController();
+
+    $scope.updateLists = function () {
+      $scope.modelAsJson = angular.toJson($scope.boardLists.lists, true);
+
+      board.one('lists').customPUT($scope.modelAsJson).then(function () {
+        // refresh board lists
+        // $scope.getBoardLists();
+      }, function () {
+        window.alert('Unable to create board list.');
+      });
+    };
   }]);

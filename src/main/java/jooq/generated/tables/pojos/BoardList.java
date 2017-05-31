@@ -22,30 +22,30 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BoardList implements Serializable {
 
-	private static final long serialVersionUID = -1650079515;
+	private static final long serialVersionUID = -1821864084;
 
-	private final Integer boardListId;
+	private final Integer listId;
 	private final String  name;
 	private final Integer boardId;
 
 	public BoardList(BoardList value) {
-		this.boardListId = value.boardListId;
+		this.listId = value.listId;
 		this.name = value.name;
 		this.boardId = value.boardId;
 	}
 
 	public BoardList(
-		Integer boardListId,
+		Integer listId,
 		String  name,
 		Integer boardId
 	) {
-		this.boardListId = boardListId;
+		this.listId = listId;
 		this.name = name;
 		this.boardId = boardId;
 	}
 
-	public Integer getBoardListId() {
-		return this.boardListId;
+	public Integer getListId() {
+		return this.listId;
 	}
 
 	public String getName() {
@@ -57,10 +57,50 @@ public class BoardList implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final BoardList other = (BoardList) obj;
+		if (listId == null) {
+			if (other.listId != null)
+				return false;
+		}
+		else if (!listId.equals(other.listId))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		}
+		else if (!name.equals(other.name))
+			return false;
+		if (boardId == null) {
+			if (other.boardId != null)
+				return false;
+		}
+		else if (!boardId.equals(other.boardId))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((listId == null) ? 0 : listId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((boardId == null) ? 0 : boardId.hashCode());
+		return result;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("BoardList (");
 
-		sb.append(boardListId);
+		sb.append(listId);
 		sb.append(", ").append(name);
 		sb.append(", ").append(boardId);
 

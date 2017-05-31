@@ -1,17 +1,38 @@
 <h4><strong>{{board.name}}</strong></h4>
 
-<table st-table="boardListCollection" st-safe-src="boardLists" class="table table-striped">
-  <tbody>
-  <div ng-repeat="boardList in boardListCollection" class="col-md-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <i ng-click="deleteBoardList(boardList.boardListId)" class="fa fa-trash" aria-hidden="true" style="float: right"></i>
-        <h5><strong>{{boardList.name}}</strong></h5>
+<div class="boardList row">
+  <div class="col-md-12">
+    <div class="row">
+      <div ng-repeat="(listId, list) in boardLists.lists" class="col-md-3">
+        <div class="panel panel-info">
+          <div class="panel-heading" ><i ng-click="deleteBoardList(listId)" class="fa fa-trash" aria-hidden="true" style="float: right"></i>
+            <h3 class="panel-title">{{list.details.name}}</h3>
+          </div>
+          <div class="panel-body">
+            <!-- The dnd-list directive allows to drop elements into it.
+The dropped data will be added to the referenced list -->
+            <ul dnd-list="list.cards">
+              <!-- The dnd-draggable directive makes an element draggable and will
+                   transfer the object that was assigned to it. If an element was
+                   dragged away, you have to remove it from the original list
+                   yourself using the dnd-moved attribute -->
+              <li ng-repeat="card in list.cards"
+                  dnd-draggable="card"
+                  dnd-moved="list.cards.splice($index, 1);updateLists()"
+                  dnd-effect-allowed="move"
+                  dnd-selected="boardLists.selected = card"
+                  ng-class="{'selected': boardLists.selected === card}"
+              >
+                {{card.name}}
+              </li>
+
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </tbody>
-</table>
+</div>
 
 <div>
   <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-create-list-modal-sm">Create List
@@ -27,8 +48,8 @@
         <div class="form-group">
           <label>Name</label>
           <input type="text" name="name" class="form-control" placeholder="List name.."
-                 ng-model="newBoardList.name"
-                 required>
+                 - ng-model="newBoardList.name"
+                 - required>
           <span class="help-block"></span>
         </div>
 
@@ -36,9 +57,7 @@
         <button type="submit" class="btn btn-success btn-block">
           Create
         </button>
-
         <!--<br/>-->
-
         <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
         <!--class="form-control">{{ newBoardList }}</textarea>-->
       </form>

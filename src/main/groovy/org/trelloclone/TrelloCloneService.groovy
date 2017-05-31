@@ -1,14 +1,19 @@
 package org.trelloclone
 
 import com.google.inject.Inject
+import jooq.generated.tables.daos.CardDao
 import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
+import jooq.generated.tables.pojos.Card
 import org.jooq.DSLContext
+import org.jooq.Record
+import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import static jooq.generated.Tables.*;
+import static ratpack.jackson.Jackson.json
 
 import javax.sql.DataSource
 
@@ -20,9 +25,12 @@ class TrelloCloneService {
 
     DSLContext context
 
+    CardDao cardDao
+
     @Inject
     public TrelloCloneService(DataSource dataSource) {
         context = DSL.using(dataSource, SQLDialect.POSTGRES)
+        cardDao = new CardDao(context.configuration())
     }
 
     public List<Board> getBoards() {
@@ -71,12 +79,44 @@ class TrelloCloneService {
         return result
     }
 
-    public List<BoardList> getBoardLists(String boardId) {
-        List<BoardList> boardLists = context.selectFrom(BOARD_LIST)
+    /**
+     *
+     * @param boardId
+     * @return
+     * Map of list ids and list contents (list details and assigned cards)
+     * TODO: add further documentation
+     */
+    def getBoardLists(String boardId) {
+        RecordMapper keyMapper = new RecordMapper() {
+            Object map(Record record) {
+                return record.into(BOARD_LIST).into(BoardList.class)
+            }
+        }
+
+        RecordMapper valueMapper = new RecordMapper() {
+            Object map(Record record) {
+                // return null for null Card rows
+                def cardId = record.getValue(CARD.CARD_ID)
+                if(!cardId)  {
+                    return null
+                }
+                return record.into(CARD).into(Card.class)
+            }
+        }
+
+        Map<BoardList, List<Card>> boardLists = context.select()
+                .from(BOARD_LIST)
+                .leftJoin(CARD)
+                .on(CARD.LIST_ID.eq(BOARD_LIST.LIST_ID))
                 .where(BOARD_LIST.BOARD_ID.equal(boardId))
-                .fetch()
-                .into(BoardList.class)
-        return boardLists
+                .fetchGroups(keyMapper, valueMapper)
+
+
+        def result = boardLists.collectEntries { BoardList list, List<Card> cards ->
+            [list.listId, ['details' : list, 'cards' : (cards - null)]]
+        }
+
+        return ['lists' : result]
     }
 
     public BoardList createBoardList(String boardId, String name) {
@@ -90,14 +130,18 @@ class TrelloCloneService {
     }
 
     /**
-     * @param boardListId
+     * @param listId
      * @return
      * the number of deleted records
      */
-    public int deleteBoardList(String boardListId) {
+    public int deleteBoardList(String listId) {
         def result = context.delete(BOARD_LIST)
-                .where(BOARD_LIST.BOARD_LIST_ID.equal(boardListId))
+                .where(BOARD_LIST.LIST_ID.equal(listId))
                 .execute()
         return result
+    }
+
+    public void updateCards(List<Card> cardsToUpdate) {
+        cardDao.update(cardsToUpdate)
     }
 }

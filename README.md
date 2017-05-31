@@ -29,13 +29,14 @@ The purpose of this project is to create a simple Trello clone for demonstration
 
 * board_list
     * GET /boards/{board_id}/lists
-    * POST /boards/{board_id}/lists   
+    * POST /boards/{board_id}/lists
+    * PUT /boards/{board_id}/lists
     * DELETE /boards/{board_id}/lists/{board_list_id}
 
 # Database
 
 ## Schema 
-![current trello-clone database schema](http://i.imgur.com/gRFAUiz.png)
+![current trello-clone database schema](https://i.imgur.com/MsWygug.png)
 
 # Heroku
 https://trello-clone-app.herokuapp.com

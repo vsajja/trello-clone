@@ -47,21 +47,21 @@ public class BoardListDao extends DAOImpl<BoardListRecord, jooq.generated.tables
 	 */
 	@Override
 	protected Integer getId(jooq.generated.tables.pojos.BoardList object) {
-		return object.getBoardListId();
+		return object.getListId();
 	}
 
 	/**
-	 * Fetch records that have <code>board_list_id IN (values)</code>
+	 * Fetch records that have <code>list_id IN (values)</code>
 	 */
-	public List<jooq.generated.tables.pojos.BoardList> fetchByBoardListId(Integer... values) {
-		return fetch(BoardList.BOARD_LIST.BOARD_LIST_ID, values);
+	public List<jooq.generated.tables.pojos.BoardList> fetchByListId(Integer... values) {
+		return fetch(BoardList.BOARD_LIST.LIST_ID, values);
 	}
 
 	/**
-	 * Fetch a unique record that has <code>board_list_id = value</code>
+	 * Fetch a unique record that has <code>list_id = value</code>
 	 */
-	public jooq.generated.tables.pojos.BoardList fetchOneByBoardListId(Integer value) {
-		return fetchOne(BoardList.BOARD_LIST.BOARD_LIST_ID, value);
+	public jooq.generated.tables.pojos.BoardList fetchOneByListId(Integer value) {
+		return fetchOne(BoardList.BOARD_LIST.LIST_ID, value);
 	}
 
 	/**

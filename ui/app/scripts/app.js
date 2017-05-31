@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name uiApp
+ * @name trelloCloneApp
  * @description
- * # uiApp
+ * # trelloCloneApp
  *
  * Main module of the application.
  */
 angular
-  .module('uiApp', [
+  .module('trelloCloneApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'restangular',
-    'smart-table'
+    'smart-table',
+    'dndLists'
   ])
   .config(function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider) {
     $routeProvider

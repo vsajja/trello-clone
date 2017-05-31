@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BoardList extends TableImpl<BoardListRecord> {
 
-	private static final long serialVersionUID = -731967876;
+	private static final long serialVersionUID = 1456704789;
 
 	/**
 	 * The reference instance of <code>public.board_list</code>
@@ -51,9 +51,9 @@ public class BoardList extends TableImpl<BoardListRecord> {
 	}
 
 	/**
-	 * The column <code>public.board_list.board_list_id</code>.
+	 * The column <code>public.board_list.list_id</code>.
 	 */
-	public final TableField<BoardListRecord, Integer> BOARD_LIST_ID = createField("board_list_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
+	public final TableField<BoardListRecord, Integer> LIST_ID = createField("list_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.board_list.name</code>.
