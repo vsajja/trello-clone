@@ -5,7 +5,8 @@
     <div class="row">
       <div ng-repeat="(listId, list) in boardLists.lists" class="col-md-3">
         <div class="panel panel-info">
-          <div class="panel-heading" ><i ng-click="deleteBoardList(listId)" class="fa fa-trash" aria-hidden="true" style="float: right"></i>
+          <div class="panel-heading"><i ng-click="deleteBoardList(listId)" class="fa fa-trash" aria-hidden="true"
+                                        style="float: right"></i>
             <h3 class="panel-title">{{list.details.name}}</h3>
           </div>
           <div class="panel-body">
@@ -25,9 +26,20 @@ The dropped data will be added to the referenced list -->
               >
                 {{card.name}}
               </li>
-
             </ul>
+            <div class="panel-footer addCard">
+              <form ng-submit="addCard(listId, newCard); newCard=null">
+                <!-- NAME -->
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" ng-model="newCard.name" required>
+                  <span class="help-block"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Card</button>
+              </form>
+            </div>
           </div>
+          </ul>
         </div>
       </div>
     </div>

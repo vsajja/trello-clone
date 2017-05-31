@@ -161,6 +161,23 @@ ratpack {
                     }
                 }
             }
+
+            path('lists/:listId/cards') {
+                def listId = pathTokens['listId']
+                byMethod {
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def name = params.get('name')?.textValue()
+                            assert name
+
+                            Card newCard = new Card(null, name, null, Integer.parseInt(listId))
+                            trelloCloneService.addCard(newCard)
+                        }.then {
+                            response.send()
+                        }
+                    }
+                }
+            }
         }
 
         files {

@@ -17,6 +17,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * Drag & drop cards onto lists
     * Create board lists
     * Delete board lists
+    * Add card to board list
 
 # Server
 
@@ -33,6 +34,9 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * POST /boards/{board_id}/lists
     * PUT /boards/{board_id}/lists
     * DELETE /boards/{board_id}/lists/{board_list_id}
+
+* card
+    * POST /lists/{list_id}/cards
 
 # Database
 

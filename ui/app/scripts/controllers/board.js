@@ -30,6 +30,17 @@ angular.module('trelloCloneApp')
       });
     };
 
+    $scope.updateLists = function () {
+      $scope.modelAsJson = angular.toJson($scope.boardLists.lists, true);
+
+      board.one('lists').customPUT($scope.modelAsJson).then(function () {
+        // refresh board lists
+        // $scope.getBoardLists();
+      }, function () {
+        window.alert('Unable to create board list.');
+      });
+    };
+
     $scope.deleteBoardList = function (listId) {
       var boardList = board.all('lists', listId);
       boardList.customDELETE(listId).then(function () {
@@ -47,9 +58,16 @@ angular.module('trelloCloneApp')
       });
     };
 
-    $scope.createCard = function () {
-      console.log('create card for list');
+    $scope.addCard = function (listId, newCard) {
+      var list = Restangular.one('lists', listId);
+      list.post('cards', angular.toJson(newCard, true)).then(function () {
+        // refresh board lists
+        $scope.getBoardLists();
+      }, function () {
+        window.alert('Unable to create board list.');
+      });
     };
+
 
     function initController() {
       $scope.getBoard();
@@ -57,15 +75,4 @@ angular.module('trelloCloneApp')
     }
 
     initController();
-
-    $scope.updateLists = function () {
-      $scope.modelAsJson = angular.toJson($scope.boardLists.lists, true);
-
-      board.one('lists').customPUT($scope.modelAsJson).then(function () {
-        // refresh board lists
-        // $scope.getBoardLists();
-      }, function () {
-        window.alert('Unable to create board list.');
-      });
-    };
   }]);

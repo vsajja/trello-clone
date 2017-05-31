@@ -144,4 +144,8 @@ class TrelloCloneService {
     public void updateCards(List<Card> cardsToUpdate) {
         cardDao.update(cardsToUpdate)
     }
+
+    public void addCard(Card card) {
+        cardDao.insert(card)
+    }
 }
