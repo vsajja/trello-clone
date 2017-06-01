@@ -1,29 +1,41 @@
 <div class="row" ng-cloak>
 
   <div class="col-md-12" ng-if="boards.length>=0">
-    <div class="row">
+    <div class="col-md-12">
+      <h4><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<strong>Personal Boards</strong></h4>
+    </div>
 
-      <div class="col-md-12">
-        <h4><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<strong>Personal Boards</strong></h4>
-      </div>
+    <div class="col-md-12">
+      <div class="col-md-3" ng-repeat="board in boards">
+        <div class="panel panel-default">
+          <div class="panel-heading trelloCloneBoardsHeading">
+            <!--<strong>{{board.name}}{{board.name}}</strong>-->
 
+            <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none"><span class="panel-title">{{board.name}}
+              </span></a>
 
-      <div ng-repeat="board in boards" class="col-md-3">
-        <i class="fa fa-trash fa-1x" ng-click="deleteBoard(board.boardId)" style="color:red; float:right"></i>
-        <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none">
-          <div class="trelloCloneBoards">
-            <h4 class="trelloCloneBoardsTitle">
-              <strong>{{board.name}}</strong>
-            </h4>
+            <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:red; float:right"></i>
           </div>
-        </a>
+          <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none">
+            <div class="trelloCloneBoardsBody panel-body">
+            </div>
+          </a>
+        </div>
       </div>
 
-      <a data-toggle="modal" data-target=".bs-create-board-modal-sm">
-        <div class="col-md-3 trelloCloneBoardsCreate">
-          <span>Create new board...</span>
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading trelloCloneBoardsCreateHeading">
+            <a data-toggle="modal" data-target=".bs-create-board-modal-sm" style="text-decoration: none"><span
+              class="panel-title">Create a board...
+              </span></a>
+          </div>
+          <a data-toggle="modal" data-target=".bs-create-board-modal-sm" style="text-decoration: none">
+            <div class="trelloCloneBoardsBody panel-body">
+            </div>
+          </a>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </div>
@@ -46,11 +58,6 @@
         <button type="submit" class="btn btn-success btn-block">
           Create
         </button>
-
-        <!--<br/>-->
-
-        <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
-        <!--class="form-control">{{ newBoard }}</textarea>-->
       </form>
     </div>
   </div>
