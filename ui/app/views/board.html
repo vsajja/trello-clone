@@ -21,9 +21,9 @@
                 <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
                   <a ng-click="$ctrl.open(card, list.details)">
                     {{card.name}}
-                    <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right"
-                       aria-hidden="true"></i>
                   </a>
+                  <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right"
+                     aria-hidden="true"></i>
                 </div>
               </li>
             </ul>
