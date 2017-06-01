@@ -22,6 +22,12 @@
   color: white;
 }
 
+.trelloCloneIconText {
+  font-family: "Bradley Hand ITC";
+  font-size: xx-large;
+  color: lightblue;
+}
+
 .body {
   background-color: dodgerblue;
 }

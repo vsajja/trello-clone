@@ -18,6 +18,7 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'restangular',
+    'angular-loading-bar',
     'smart-table',
     'dndLists'
   ])

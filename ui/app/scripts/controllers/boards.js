@@ -6,6 +6,7 @@
  * @description
  * # BoardsCtrl
  * Controller of the uiApp
+ *
  */
 angular.module('trelloCloneApp')
   .controller('BoardsCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
