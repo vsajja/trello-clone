@@ -19,24 +19,24 @@
     <!-- endbuild -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
+  <!-- Add your site or application content here -->
+  <div class="header">
+    <div class="navbar navbar-default" role="navigation">
+      <!--<div class="container">-->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#/">
+              <span class="trelloCloneIcon">
+                <i class="fa fa-trello fa-2x" aria-hidden="true"></i>  <strong>Trello-clone</strong>
+              </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <body ng-app="trelloCloneApp">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-    <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <!--<div class="container">-->
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#/">
-              <span class="trelloCloneIcon">
-                <i class="fa fa-trello fa-2x" aria-hidden="true"></i>  <strong>Trello-clone</strong>
-              </span>
-            </a>
-          </div>
-      </div>
-    </div>
 
     <div class="container">
       <div ng-view=""></div>
@@ -84,5 +84,5 @@
     <script src="scripts/controllers/boards.js"></script>
     <script src="scripts/controllers/board.js"></script>
     <!-- endbuild -->
-</body>
+  </body>
 </html>

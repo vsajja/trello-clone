@@ -1,12 +1,11 @@
-<h4><strong>{{board.name}}</strong></h4>
-
-<div class="boardList row">
-  <div class="col-md-12">
-    <div class="row">
+<div class="row" ng-cloak>
+  <div class="col-md-12" ng-if="boardLists">
+    <h4><strong>{{board.name}}</strong></h4>
+    <div class="boardList row">
       <div ng-repeat="(listId, list) in boardLists.lists" class="col-md-3">
         <div class="panel panel-info">
           <div class="panel-heading"><i ng-click="deleteBoardList(listId)" class="fa fa-trash" aria-hidden="true"
-                                        style="float: right"></i>
+                                        style="color: red;float: right"></i>
             <h3 class="panel-title">{{list.details.name}}</h3>
           </div>
           <div class="panel-body">
@@ -22,7 +21,7 @@
                   <a ng-click="$ctrl.open(card, list.details)">
                     {{card.name}}
                   </a>
-                  <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right"
+                  <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="color: red;float:right"
                      aria-hidden="true"></i>
                 </div>
               </li>

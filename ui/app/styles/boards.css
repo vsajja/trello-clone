@@ -1,18 +1,38 @@
-.trelloCloneBoard {
+.trelloCloneBoards {
   border: 1px;
   border-radius: 5px;
   background-color: dodgerblue;
   width: 250px;
   height: 80px;
   padding: 10px;
-  padding-top: 5px;
+  padding-top: 1px;
   margin: 10px;
+  cursor: pointer;
+  cursor: hand;
 }
 
-.trelloCloneBoard:hover {
+.trelloCloneBoards:hover {
   background-color: #005B8F;
 }
 
-.trelloCloneBoardTitle {
+.trelloCloneBoardsTitle {
   color: white;
+}
+
+.trelloCloneBoardsCreate {
+  border: 1px;
+  border-radius: 5px;
+  background-color: lightgray;
+  width: 250px;
+  height: 80px;
+  margin: 10px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 80px;
+}
+
+.trelloCloneBoardsCreate:hover {
+  cursor: pointer;
+  cursor: hand;
+  background-color: #BBBBBB;
 }

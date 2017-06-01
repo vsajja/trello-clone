@@ -20,7 +20,6 @@ angular.module('trelloCloneApp')
     $scope.getBoards = function () {
       boards.getList().then(function (boards) {
         $scope.boards = boards;
-        $scope.boardCollection = [].concat($scope.boards);
       });
     };
 
