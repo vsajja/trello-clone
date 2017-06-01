@@ -14,6 +14,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/boards.css">
     <link rel="stylesheet" href="styles/board.css">
     <!-- endbuild -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -26,22 +27,19 @@
     <!-- Add your site or application content here -->
     <div class="header">
       <div class="navbar navbar-default" role="navigation">
-        <div class="container">
+        <!--<div class="container">-->
           <div class="navbar-header">
-            <a class="navbar-brand" href="#/"><span style="color: gray"><i class="fa fa-trello fa-2x" aria-hidden="true"></i>  <strong>Trello-clone</strong></span></a>
+            <a class="navbar-brand" href="#/">
+              <span class="trelloCloneIcon">
+                <i class="fa fa-trello fa-2x" aria-hidden="true"></i>  <strong>Trello-clone</strong>
+              </span>
+            </a>
           </div>
-
-          <!--<div class="collapse navbar-collapse" id="js-navbar-collapse">-->
-            <!--<ul class="nav navbar-nav">-->
-              <!--<li class="active"><a href="#/">Home</a></li>-->
-            <!--</ul>-->
-          <!--</div>-->
-        </div>
       </div>
     </div>
 
     <div class="container">
-    <div ng-view=""></div>
+      <div ng-view=""></div>
     </div>
 
     <!--<div class="footer">-->

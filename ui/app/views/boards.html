@@ -1,28 +1,43 @@
-<table st-table="boardCollection" st-safe-src="boards" class="table table-striped">
-  <tr>
-    <th colspan="10"><input st-search="" class="form-control" placeholder="Search boards..." type="text"/></th>
-  </tr>
-  <tbody>
+<div class="boardList row">
+  <div class="col-md-12">
+    <div class="row">
 
-  <tr ng-repeat="board in boardCollection">
-    <td style="width: 200px; height: 100px; padding: 15px">
-      <div class="card-block">
-        <h4 class="card-title">
-          <a ng-href="#/board/{{board.boardId}}">{{board.name}}</a>
-          <i ng-click="deleteBoard(board.boardId)" class="fa fa-trash" aria-hidden="true" style="float: right"></i>
-        </h4>
+
+      <div class="col-md-12">
+        <h4><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;<strong>Personal Boards</strong></h4>
       </div>
-    </td>
-  </tr>
-  </tbody>
 
-  <tfoot>
-  <tr>
-    <td class="text-center" st-pagination="" st-items-by-page="30" colspan="10">
-    </td>
-  </tr>
-  </tfoot>
-</table>
+      <div ng-repeat="board in boards" class="col-md-3 trelloCloneBoard">
+        <h4 class="trelloCloneBoardTitle"><strong>{{board.name}}</strong></h4>
+      </div>
+  </div>
+</div>
+
+<!--<table st-table="boardCollection" st-safe-src="boards" class="table table-striped">-->
+  <!--<tr>-->
+    <!--<th colspan="10"><input st-search="" class="form-control" placeholder="Search boards..." type="text"/></th>-->
+  <!--</tr>-->
+  <!--<tbody>-->
+
+  <!--<tr ng-repeat="board in boardCollection">-->
+    <!--<td style="width: 200px; height: 100px; padding: 15px">-->
+      <!--<div class="card-block">-->
+        <!--<h4 class="card-title">-->
+          <!--<a ng-href="#/board/{{board.boardId}}">{{board.name}}</a>-->
+          <!--<i ng-click="deleteBoard(board.boardId)" class="fa fa-trash" aria-hidden="true" style="float: right"></i>-->
+        <!--</h4>-->
+      <!--</div>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+
+  <!--<tfoot>-->
+  <!--<tr>-->
+    <!--<td class="text-center" st-pagination="" st-items-by-page="30" colspan="10">-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--</tfoot>-->
+<!--</table>-->
 
 <div>
   <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-create-board-modal-sm">Create
