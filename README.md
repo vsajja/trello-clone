@@ -18,6 +18,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * Create board lists
     * Delete board lists
     * Add card to board list
+    * View card details
 
 # Server
 

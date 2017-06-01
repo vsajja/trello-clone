@@ -84,3 +84,47 @@ angular.module('trelloCloneApp')
 
     initController();
   }]);
+
+
+angular.module('trelloCloneApp').controller('ModalDemoCtrl', function ($uibModal) {
+  var $ctrl = this;
+  $ctrl.open = function (card, listDetails) {
+    var modalInstance = $uibModal.open({
+      animation: false,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'cardContent.html',
+      controller: 'CardContentCtrl',
+      controllerAs: '$ctrl',
+      resolve: {
+        card: function () {
+          return card;
+        },
+        list: function () {
+          return listDetails;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (card) {
+      $ctrl.card = card;
+    }, function () {
+      // $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+});
+
+angular.module('trelloCloneApp').controller('CardContentCtrl', function ($uibModalInstance, card, list) {
+  var $ctrl = this;
+
+  $ctrl.card = card;
+  $ctrl.list = list;
+
+  $ctrl.ok = function () {
+    $uibModalInstance.close();
+  };
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});

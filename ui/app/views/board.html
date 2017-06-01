@@ -10,23 +10,25 @@
             <h3 class="panel-title">{{list.details.name}}</h3>
           </div>
           <div class="panel-body">
-            <!-- The dnd-list directive allows to drop elements into it.
-The dropped data will be added to the referenced list -->
             <ul dnd-list="list.cards">
-              <!-- The dnd-draggable directive makes an element draggable and will
-                   transfer the object that was assigned to it. If an element was
-                   dragged away, you have to remove it from the original list
-                   yourself using the dnd-moved attribute -->
               <li ng-repeat="card in list.cards"
                   dnd-draggable="card"
                   dnd-moved="list.cards.splice($index, 1);updateLists()"
                   dnd-effect-allowed="move"
                   dnd-selected="boardLists.selected = card"
               >
-                {{card.name}}
-                <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right" aria-hidden="true"></i>
+
+                <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+                  <a ng-click="$ctrl.open(card, list.details)">
+                    {{card.name}}
+                    <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="float:right"
+                       aria-hidden="true"></i>
+                  </a>
+                </div>
               </li>
             </ul>
+
+
             <div class="panel-footer addCard">
               <form ng-submit="addCard(listId, newCard); newCard=null">
                 <!-- NAME -->
@@ -75,3 +77,21 @@ The dropped data will be added to the referenced list -->
     </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="cardContent.html">
+  <div class="modal-header">
+    <i ng-click="$ctrl.cancel()" class="fa fa-times fa-2x" style="float: right; color: gray" aria-hidden="true"></i>
+    <h4 class="modal-title" id="modal-title">{{$ctrl.card.name}}</h4>
+    in List <strong>{{$ctrl.list.name}}</strong>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div>
+      An awesome card description.
+      <!--{{$ctrl.card.description}}-->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!--<button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>-->
+    <!--<button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>-->
+  </div>
+</script>
