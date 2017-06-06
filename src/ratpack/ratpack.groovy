@@ -10,11 +10,14 @@ import jooq.generated.tables.pojos.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.trelloclone.TrelloCloneService
+import org.trelloclone.exceptions.InvalidCredentialsException
 import org.trelloclone.postgres.PostgresConfig
 import org.trelloclone.postgres.PostgresModule
 import ratpack.groovy.sql.SqlModule
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
+import ratpack.http.Response
+
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
 import static ratpack.jackson.Jackson.jsonNode
@@ -47,23 +50,22 @@ ratpack {
                 next()
             }
 
-            path('login') {
-                byMethod {
-                    post {
-                        parse(jsonNode()).map { params ->
-                            def username = params.get('username')?.textValue()
-                            def password = params.get('password')?.textValue()
+            post('login') {
+                parse(jsonNode()).map { params ->
+                    def username = params.get('username')?.textValue()
+                    def password = params.get('password')?.textValue()
 
-                            assert username
-                            assert password
+                    assert username
+                    assert password
 
-                            if (username.equals(password)) {
-                                response.send()
-                            } else {
-                                clientError(403)
-                            }
-                        }
+                    trelloCloneService.login(username, password)
+                }.onError { Throwable e ->
+                    if(e instanceof InvalidCredentialsException) {
+                        clientError(401)
                     }
+                    throw e
+                }.then { User user ->
+                    render json(user)
                 }
             }
 
