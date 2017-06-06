@@ -40,6 +40,14 @@ The purpose of this project is to create a simple Trello clone for demonstration
     * POST /lists/{list_id}/cards
     * DELETE /cards/{card_id}
 
+* team
+    * GET /teams
+    * POST /teams
+    * POST /teams/{team_id}/boards
+    
+* POST /login
+* POST /register
+
 # Database
 
 ## Schema 

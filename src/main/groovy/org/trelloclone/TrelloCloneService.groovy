@@ -1,15 +1,19 @@
 package org.trelloclone
 
 import com.google.inject.Inject
+import jooq.generated.tables.TeamBoard
 import jooq.generated.tables.daos.CardDao
 import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
 import jooq.generated.tables.pojos.Card
+import jooq.generated.tables.pojos.Team
+import jooq.generated.tables.pojos.User
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.RecordMapper
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.mindrot.jbcrypt.BCrypt
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import static jooq.generated.Tables.*;
@@ -81,6 +85,71 @@ class TrelloCloneService {
 
     /**
      *
+     * @return Map of teams
+     * key: team name
+     * value: team details and team boards
+     * TODO: add further documentation
+     */
+    def getTeams() {
+        RecordMapper keyMapper = new RecordMapper() {
+            Object map(Record record) {
+                return record.into(TEAM).into(Team.class)
+            }
+        }
+
+        RecordMapper valueMapper = new RecordMapper() {
+            Object map(Record record) {
+                // return null for null Board rows
+                def boardId = record.getValue(BOARD.BOARD_ID)
+                if (!boardId) {
+                    return null
+                }
+                return record.into(BOARD).into(Board.class)
+            }
+        }
+
+        def teams = context.select()
+                .from(TEAM)
+                .leftJoin(TEAM_BOARD).on(TEAM.TEAM_ID.eq(TEAM_BOARD.TEAM_ID))
+                .leftJoin(BOARD).on(BOARD.BOARD_ID.eq(TEAM_BOARD.BOARD_ID))
+                .fetchGroups(keyMapper, valueMapper)
+
+        def result = teams.collectEntries { Team team, List<Board> teamBoards ->
+            [team.name, ['details': team, 'boards': (teamBoards - null)]]
+        }
+
+        return ['teams': result]
+    }
+
+    public Team createTeam(String name, String description) {
+        Team team = context.insertInto(TEAM)
+                .set(TEAM.NAME, name)
+                .set(TEAM.DESCRIPTION, (String) description)
+                .returning()
+                .fetchOne()
+                .into(Team.class)
+        return team
+    }
+
+    public TeamBoard createTeamBoard(String teamId, String name) {
+        TeamBoard teamBoard = null
+
+        context.transaction {
+            Board board = createBoard(name)
+
+            teamBoard = context.insertInto(TEAM_BOARD)
+                    .set(TEAM_BOARD.TEAM_ID, teamId)
+                    .set(TEAM_BOARD.BOARD_ID, board.getBoardId())
+                    .returning()
+                    .fetchOne()
+                    .into(TeamBoard.class)
+
+            return teamBoard
+        }
+    }
+
+    /**
+     *
      * @param boardId
      * @return
      * Map of list ids and list contents (list details and assigned cards)
@@ -97,7 +166,7 @@ class TrelloCloneService {
             Object map(Record record) {
                 // return null for null Card rows
                 def cardId = record.getValue(CARD.CARD_ID)
-                if(!cardId)  {
+                if (!cardId) {
                     return null
                 }
                 return record.into(CARD).into(Card.class)
@@ -111,12 +180,11 @@ class TrelloCloneService {
                 .where(BOARD_LIST.BOARD_ID.equal(boardId))
                 .fetchGroups(keyMapper, valueMapper)
 
-
         def result = boardLists.collectEntries { BoardList list, List<Card> cards ->
-            [list.listId, ['details' : list, 'cards' : (cards - null)]]
+            [list.listId, ['details': list, 'cards': (cards - null)]]
         }
 
-        return ['lists' : result]
+        return ['lists': result]
     }
 
     public BoardList createBoardList(String boardId, String name) {
@@ -160,5 +228,17 @@ class TrelloCloneService {
                 .where(CARD.CARD_ID.equal(cardId))
                 .execute()
         return result
+    }
+
+    public User registerUser(String username, String password) {
+        int BCRYPT_LOG_ROUNDS = 6
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
+        def user = context.insertInto(USER)
+                .set(USER.USERNAME, username)
+                .set(USER.PASSWORD, hashedPassword)
+                .returning()
+                .fetchOne()
+                .into(User.class)
+        return user
     }
 }

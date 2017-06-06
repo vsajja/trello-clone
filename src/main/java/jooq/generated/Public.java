@@ -13,6 +13,8 @@ import javax.annotation.Generated;
 import jooq.generated.tables.Board;
 import jooq.generated.tables.BoardList;
 import jooq.generated.tables.Card;
+import jooq.generated.tables.Team;
+import jooq.generated.tables.TeamBoard;
 import jooq.generated.tables.User;
 
 import org.jooq.Sequence;
@@ -33,7 +35,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -990893331;
+	private static final long serialVersionUID = -1009418904;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -59,6 +61,8 @@ public class Public extends SchemaImpl {
 			Sequences.BOARD_BOARD_ID_SEQ,
 			Sequences.BOARD_LIST_BOARD_LIST_ID_SEQ,
 			Sequences.CARD_CARD_ID_SEQ,
+			Sequences.TEAM_BOARD_TEAM_BOARD_ID_SEQ,
+			Sequences.TEAM_TEAM_ID_SEQ,
 			Sequences.USER_USER_ID_SEQ);
 	}
 
@@ -74,6 +78,8 @@ public class Public extends SchemaImpl {
 			Board.BOARD,
 			BoardList.BOARD_LIST,
 			Card.CARD,
+			Team.TEAM,
+			TeamBoard.TEAM_BOARD,
 			User.USER);
 	}
 }

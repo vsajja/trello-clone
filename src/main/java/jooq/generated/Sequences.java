@@ -39,6 +39,16 @@ public class Sequences {
 	public static final Sequence<Long> CARD_CARD_ID_SEQ = new SequenceImpl<Long>("card_card_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
 	/**
+	 * The sequence <code>public.team_board_team_board_id_seq</code>
+	 */
+	public static final Sequence<Long> TEAM_BOARD_TEAM_BOARD_ID_SEQ = new SequenceImpl<Long>("team_board_team_board_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.team_team_id_seq</code>
+	 */
+	public static final Sequence<Long> TEAM_TEAM_ID_SEQ = new SequenceImpl<Long>("team_team_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.user_user_id_seq</code>
 	 */
 	public static final Sequence<Long> USER_USER_ID_SEQ = new SequenceImpl<Long>("user_user_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

@@ -9,6 +9,63 @@
       <div class="col-md-3" ng-repeat="board in boards">
         <div class="panel panel-default">
           <div class="panel-heading trelloCloneBoardsHeading">
+            <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none"><span class="panel-title">{{board.name}}
+              </span></a>
+
+            <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:red; float:right"></i>
+          </div>
+          <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none">
+            <div class="trelloCloneBoardsBody panel-body">
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading trelloCloneBoardsCreateHeading">
+            <a popover-trigger="'outsideClick'" popover-placement="auto bottom-left"
+               uib-popover-template="createBoardPopover.templateUrl"><span
+              class="panel-title">Create a board...
+              </span></a>
+          </div>
+        </div>
+
+        <script type="text/ng-template" id="CreateBoardPopoverTemplate.html">
+          <div style="text-align: center">Create Board</div>
+
+          <form ng-submit="createBoard(newBoard)">
+            <!-- NAME -->
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Board name.."
+                     ng-model="newBoard.name"
+                     required>
+              <span class="help-block"></span>
+            </div>
+
+            <br/>
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-success btn-block">
+              Create
+            </button>
+          </form>
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12" ng-if="teams">
+    <!--<h4><i class="fa fa-users" aria-hidden="true"></i>-->
+    <!--&nbsp;&nbsp;<strong>Team Boards</strong></h4>-->
+    <div class="col-md-12" ng-repeat="(teamName, team) in teams">
+
+      <h4><i class="fa fa-users" aria-hidden="true"></i>
+        &nbsp;&nbsp;<strong>{{teamName}}</strong></h4>
+
+      <div class="col-md-3" ng-repeat="board in team.boards">
+        <div class="panel panel-default">
+          <div class="panel-heading trelloCloneBoardsHeading">
             <!--<strong>{{board.name}}{{board.name}}</strong>-->
 
             <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none"><span class="panel-title">{{board.name}}
@@ -26,40 +83,79 @@
       <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading trelloCloneBoardsCreateHeading">
-            <a data-toggle="modal" data-target=".bs-create-board-modal-sm" style="text-decoration: none"><span
+            <a popover-trigger="'outsideClick'" popover-placement="auto bottom-left"
+               uib-popover-template="createTeamBoardPopover.templateUrl"><span
               class="panel-title">Create a board...
               </span></a>
           </div>
-          <a data-toggle="modal" data-target=".bs-create-board-modal-sm" style="text-decoration: none">
-            <div class="trelloCloneBoardsBody panel-body">
-            </div>
-          </a>
         </div>
+
+        <script type="text/ng-template" id="CreateTeamBoardPopoverTemplate.html">
+          <div style="text-align: center">Create Team Board</div>
+
+          <form ng-submit="createTeamBoard(newTeamBoard)">
+            <!-- NAME -->
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Board name.."
+                     ng-model="newTeamBoard.name"
+                     required>
+              <span class="help-block"></span>
+            </div>
+
+            <div ng-init="newTeamBoard.teamId=team.details.teamId"><strong>Team</strong> {{team.details.name}}</div>
+
+            <br/>
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-success btn-block">
+              Create
+            </button>
+          </form>
+        </script>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <br/>
+      <div class="col-md-3">
+        <a popover-trigger="'outsideClick'" popover-placement="auto bottom-left"
+           uib-popover-template="createTeamPopover.templateUrl"
+           style="border-bottom: 1px solid black; text-decoration: none"><span
+          class="panel-title">Create a new team...
+              </span></a>
+
+        <script type="text/ng-template" id="CreateTeamPopoverTemplate.html">
+          <div style="text-align: center">Create Team</div>
+
+          <!-- FORM -->
+          <form ng-submit="createTeam(newTeam)">
+            <!-- NAME -->
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Team name.."
+                     ng-model="newTeam.name"
+                     required>
+              <span class="help-block"></span>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div id="name-group" class="form-group">
+              <label>Description (Optional)</label>
+
+              <textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"
+                        class="form-control" placeholder="Description" ng-model="newTeam.description"></textarea>
+              <span class="help-block"></span>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-success btn-block">
+              Create
+            </button>
+
+            <p>A team is a group of boards and people. It helps keep your company, team, or family organized.</p>
+          </form>
+        </script>
       </div>
     </div>
   </div>
 </div>
-
-<div class="modal fade bs-create-board-modal-sm" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content" style="padding: 5px">
-      <!-- FORM -->
-      <form ng-submit="createBoard()">
-        <!-- NAME -->
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Board name.."
-                 ng-model="newBoard.name"
-                 required>
-          <span class="help-block"></span>
-        </div>
-
-        <!-- SUBMIT BUTTON -->
-        <button type="submit" class="btn btn-success btn-block">
-          Create
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
-

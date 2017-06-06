@@ -1,9 +1,12 @@
 import com.zaxxer.hikari.HikariConfig
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import jooq.generated.tables.TeamBoard
 import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
 import jooq.generated.tables.pojos.Card
+import jooq.generated.tables.pojos.Team
+import jooq.generated.tables.pojos.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.trelloclone.TrelloCloneService
@@ -44,6 +47,45 @@ ratpack {
                 next()
             }
 
+            path('login') {
+                byMethod {
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def username = params.get('username')?.textValue()
+                            def password = params.get('password')?.textValue()
+
+                            assert username
+                            assert password
+
+                            if (username.equals(password)) {
+                                response.send()
+                            } else {
+                                clientError(403)
+                            }
+                        }
+                    }
+                }
+            }
+
+            post('register') {
+                parse(jsonNode()).map { params ->
+                    def username = params.get('username')?.textValue()
+                    def password = params.get('password')?.textValue()
+
+                    assert username
+                    assert password
+
+                    trelloCloneService.registerUser(username, password)
+                }.onError { Throwable e ->
+                    if(e.message.contains('unique constraint')) {
+                        clientError(409)
+                    }
+                    throw e
+                }.then { User user ->
+                    render json(user)
+                }
+            }
+
             path('boards') {
                 byMethod {
                     get {
@@ -63,6 +105,54 @@ ratpack {
                             }
                         }.then { Board board ->
                             render json(board)
+                        }
+                    }
+                }
+            }
+
+            path('teams') {
+                byMethod {
+                    get {
+                        def teams = trelloCloneService.getTeams()
+                        render json(teams)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def name = params.get('name')?.textValue()
+                            def description = params.get('description')?.textValue()
+                            assert name
+
+                            trelloCloneService.createTeam(name, description)
+                        }.onError { Throwable e ->
+                            if(e.message.contains('unique constraint')) {
+                                clientError(409)
+                            }
+                            throw e
+                        }.then { Team team ->
+                            render json(team)
+                        }
+                    }
+                }
+            }
+
+            path('teams/:teamId/boards') {
+                def teamId = pathTokens['teamId']
+                byMethod {
+                    post {
+                        parse(jsonNode()).map { params ->
+                            def name = params.get('name')?.textValue()
+
+                            assert name
+
+                            trelloCloneService.createTeamBoard(teamId, name)
+                        }.onError { Throwable e ->
+                            if(e.message.contains('unique constraint')) {
+                                clientError(409)
+                            }
+                            throw e
+                        }.then { TeamBoard teamBoard ->
+                            render json(teamBoard)
                         }
                     }
                 }
@@ -194,7 +284,6 @@ ratpack {
                 }
             }
         }
-
         files {
             dir 'dist'
             indexFiles 'index.html'

@@ -14,6 +14,7 @@ import jooq.generated.Public;
 import jooq.generated.tables.records.BoardRecord;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Board extends TableImpl<BoardRecord> {
 
-	private static final long serialVersionUID = 606403524;
+	private static final long serialVersionUID = 2010865185;
 
 	/**
 	 * The reference instance of <code>public.board</code>
@@ -58,6 +59,11 @@ public class Board extends TableImpl<BoardRecord> {
 	 * The column <code>public.board.name</code>.
 	 */
 	public final TableField<BoardRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR, this, "");
+
+	/**
+	 * The column <code>public.board.user_id</code>.
+	 */
+	public final TableField<BoardRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * Create a <code>public.board</code> table reference
@@ -103,6 +109,14 @@ public class Board extends TableImpl<BoardRecord> {
 	@Override
 	public List<UniqueKey<BoardRecord>> getKeys() {
 		return Arrays.<UniqueKey<BoardRecord>>asList(Keys.BOARD_PKEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<BoardRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<BoardRecord, ?>>asList(Keys.BOARD__BOARD_USER_USER_ID_FK);
 	}
 
 	/**
