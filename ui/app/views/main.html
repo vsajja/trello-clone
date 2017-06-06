@@ -1,63 +1,116 @@
 <div class="row">
   <div class="col-sm-12" style="text-align: center">
-    <h2>Welcome to the <span style="color: gray"><i class="fa fa-trello fa-1x" aria-hidden="true"></i>  <strong>Trello-clone</strong></span>
-      project!</h2>
+    <h2>Welcome to the Trello-clone project!</h2>
 
     <br/>
-    <br/>
-    <br/>
-    <br/>
 
-    <div>
-      <div class="col-sm-4" >
+    <div class="col-sm-12">
+      <div class="col-sm-2">
       </div>
 
-      <div class="col-sm-4">
-        <div class="panel panel-default" style="text-align: left">
-          <div class="panel-heading">
-            <h4>Login</h4>
-          </div>
-          <div class="panel-body">
-            <div class="box box-info">
-              <div class="box-body">
-                <!-- FORM -->
-                <form ng-submit="login()">
-                  <!-- USERNAME -->
-                  <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Username"
-                           ng-model="user.username"
-                           required>
-                    <span class="help-block"></span>
-                  </div>
+      <div class="col-sm-8">
+        <!-- SHOW ERROR/SUCCESS MESSAGES -->
+        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+             close="closeAlert($index)">{{alert.msg}}
+        </div>
+      </div>
 
-                  <!-- PASSWORD -->
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Password"
-                           ng-model="user.password" required>
-                    <span class="help-block"></span>
-                  </div>
+      <div class="col-sm-2">
+      </div>
+    </div>
+  </div>
 
-                  <!-- SUBMIT BUTTON -->
-                  <button type="submit" class="btn btn-success btn-lg btn-block">
-                    Login
-                  </button>
-                </form>
+  <div>
+    <div class="col-sm-2">
+    </div>
 
-                <!--<br/>-->
+    <div class="col-sm-4">
+      <div class="panel panel-default" style="text-align: left">
+        <div class="panel-heading">
+          <h4>Login</h4>
+        </div>
+        <div class="panel-body">
+          <div class="box box-info">
+            <div class="box-body">
+              <!-- FORM -->
+              <form ng-submit="login()">
+                <!-- USERNAME -->
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" name="username" class="form-control" placeholder="Username"
+                         ng-model="user.username"
+                         required>
+                  <span class="help-block"></span>
+                </div>
 
-                <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
-                <!--class="form-control">{{ user }}</textarea>-->
-              </div>
+                <!-- PASSWORD -->
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="Password"
+                         ng-model="user.password" required>
+                  <span class="help-block"></span>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="btn btn-success btn-lg btn-block">
+                  Login
+                </button>
+              </form>
+
+              <!--<br/>-->
+
+              <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
+                        <!--class="form-control">{{ user }}</textarea>-->
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-sm-4">
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Register</h4>
+        </div>
+        <div class="panel-body">
+          <div class="box box-info">
+            <div class="box-body">
+              <!-- FORM -->
+              <form ng-submit="register()">
+                <!-- USERNAME -->
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" name="username" class="form-control" placeholder="Username"
+                         ng-model="newUser.username"
+                         required>
+                  <span class="help-block"></span>
+                </div>
 
+                <!-- PASSWORD -->
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="Password"
+                         ng-model="newUser.password" required>
+                  <span class="help-block"></span>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="btn btn-success btn-lg btn-block">
+                  Register
+                </button>
+              </form>
+
+              <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+
+              <!--<textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"-->
+                        <!--class="form-control">{{ newUser }}</textarea>-->
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="col-sm-2">
     </div>
   </div>
 </div>

@@ -16,6 +16,8 @@ import org.jooq.impl.DSL
 import org.mindrot.jbcrypt.BCrypt
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.trelloclone.exceptions.InvalidCredentialsException
+
 import static jooq.generated.Tables.*;
 import static ratpack.jackson.Jackson.json
 
@@ -230,6 +232,17 @@ class TrelloCloneService {
         return result
     }
 
+    public User getUser(String username) {
+        User user = null
+        def userData = context.selectFrom(USER)
+                .where(USER.USERNAME.equal(username))
+                .fetchOne()
+        if (userData) {
+            user = userData.into(User.class)
+        }
+        return user
+    }
+
     public User registerUser(String username, String password) {
         int BCRYPT_LOG_ROUNDS = 6
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(BCRYPT_LOG_ROUNDS))
@@ -240,5 +253,19 @@ class TrelloCloneService {
                 .fetchOne()
                 .into(User.class)
         return user
+    }
+
+    public User login(String username, String password) throws InvalidCredentialsException {
+        User user = getUser(username)
+        if (user) {
+            boolean passwordMatches = BCrypt.checkpw(password, user.getPassword())
+            if (passwordMatches) {
+                return new User(user.userId, user.username, null)
+            } else {
+                throw new InvalidCredentialsException('Invalid username and password')
+            }
+        } else {
+            throw new InvalidCredentialsException('User not found ' + username)
+        }
     }
 }

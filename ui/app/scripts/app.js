@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+var trelloCloneApp = angular
   .module('trelloCloneApp', [
     'ngAnimate',
     'ngCookies',
@@ -20,19 +20,21 @@ angular
     'restangular',
     'angular-loading-bar',
     'smart-table',
-    'dndLists'
+    'dndLists',
+    'base64',
+    'LocalStorageModule'
   ])
-  .config(function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider) {
+  .config(function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider, localStorageServiceProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl',
+        controllerAs: 'main'
+      })
+      .when('/boards', {
         templateUrl: 'views/boards.html',
         controller: 'BoardsCtrl',
         controllerAs: 'boards'
-      })
-      .when('/main', {
-        // templateUrl: 'views/main.html',
-        // controller: 'MainCtrl',
-        // controllerAs: 'main'
       })
       .when('/board/:boardId', {
         templateUrl: 'views/board.html',
@@ -48,6 +50,8 @@ angular
 
     RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 
+    localStorageServiceProvider.setPrefix('trelloCloneApp');
+
     // release
     // $compileProvider.debugInfoEnabled(false);
     // RestangularProvider.setBaseUrl('/api/v1');
@@ -55,3 +59,21 @@ angular
     // dev
     RestangularProvider.setBaseUrl('http://localhost:5050/api/v1');
   });
+
+trelloCloneApp.run(function ($rootScope, $location, $cookieStore, $http) {
+  // keep user logged in after page refresh
+  $rootScope.globals = $cookieStore.get('globals') || {};
+  if ($rootScope.globals.currentUser) {
+    $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+  }
+
+  $rootScope.$on('$locationChangeStart', function () {
+    // redirect to login page if not logged in and trying to access a restricted page
+    var restrictedPage = $.inArray($location.path(), ['/']) === -1;
+    var loggedIn = $rootScope.globals.currentUser;
+
+    if (restrictedPage && !loggedIn) {
+      $location.path('/');
+    }
+  });
+});
