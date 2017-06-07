@@ -32,7 +32,7 @@
               </span>
         </a>
 
-        <ul ng-show="currentUser" class="nav navbar-nav navbar-right">
+        <ul ng-if="currentUser!=null" ng-cloak class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
               <span class="glyphicon glyphicon-user" style="color: white"></span>
