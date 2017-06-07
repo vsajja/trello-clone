@@ -9,7 +9,7 @@
  *
  */
 angular.module('trelloCloneApp')
-  .controller('BoardsCtrl', ['$scope', 'Restangular', function ($scope, Restangular) {
+  .controller('BoardsCtrl', ['$scope', 'Restangular', 'AuthenticationService',  function ($scope, Restangular, AuthenticationService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -28,11 +28,15 @@ angular.module('trelloCloneApp')
       templateUrl: 'CreateTeamPopoverTemplate.html'
     };
 
-    var boards = Restangular.all('boards');
+    var currentUser = AuthenticationService.GetCurrentUser();
+    var userId = currentUser.userId;
+
+    var user = Restangular.one('users', userId);
     var teams = Restangular.all('teams');
+    var boards = Restangular.all('boards');
 
     $scope.getBoards = function () {
-      boards.getList().then(function (boards) {
+      user.customGET('boards').then(function (boards) {
         $scope.boards = boards;
       });
     };
@@ -44,11 +48,11 @@ angular.module('trelloCloneApp')
     };
 
     $scope.createBoard = function (newBoard) {
-      boards.customPOST(angular.toJson(newBoard, true)).then(function () {
+      user.post('boards', angular.toJson(newBoard, true)).then(function () {
         $scope.newBoard = null;
         $scope.refreshBoards();
       }, function () {
-        window.alert('Unable to create board, name must be unique.');
+        window.alert('Error! Unable to create board.');
       });
     };
 

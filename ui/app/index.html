@@ -32,15 +32,15 @@
               </span>
         </a>
 
-        <ul ng-if="currentUser!=null" ng-cloak class="nav navbar-nav navbar-right">
+        <ul ng-if="currentUser" ng-cloak class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">
-              <span class="glyphicon glyphicon-user" style="color: white"></span>
-              <span style="color: white">{{currentUser.username}}</span>
-              <span class="caret" style="color: white"></span>
+              <span class="glyphicon glyphicon-user" style="color: lightblue"></span>
+              <span style="color: lightblue"><strong>{{currentUser.username}}</strong></span>
+              <span class="caret" style="color: lightblue"></span>
             </a>
             <ul class="dropdown-menu">
-              <li style="text-align: center"><a href="#/"><span style="color: white"><i class="fa fa-sign-out"></i> Logout</span></a></li>
+              <li style="text-align: center"><a href="#/"><span style="color: lightblue"><i class="fa fa-sign-out"></i> Logout</span></a></li>
             </ul>
         </ul>
 

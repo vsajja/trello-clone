@@ -8,10 +8,14 @@ The purpose of this project is to create a simple Trello clone for demonstration
 
 * main.html
     * Login
+    * Register
 * boards.html
-    * View list of boards
+    * View boards
     * Create boards
     * Delete boards
+    * Create team
+    * View team boards
+    * Delete team boards
 * board.html
     * View board lists including cards
     * Drag & drop cards onto lists
@@ -24,10 +28,17 @@ The purpose of this project is to create a simple Trello clone for demonstration
 
 ## REST API
 
+* user
+    * GET /users/{user_id}/boards
+    * POST /users/{user_id}/boards
+
+* team
+    * GET /teams
+    * POST /teams
+    * POST /teams/{team_id}/boards
+   
 * board
-    * GET /boards
     * GET /boards/{board_id}
-    * POST /boards
     * DELETE /boards/{board_id}
 
 * board_list
@@ -39,11 +50,6 @@ The purpose of this project is to create a simple Trello clone for demonstration
 * card
     * POST /lists/{list_id}/cards
     * DELETE /cards/{card_id}
-
-* team
-    * GET /teams
-    * POST /teams
-    * POST /teams/{team_id}/boards
     
 * POST /login
 * POST /register
@@ -51,7 +57,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
 # Database
 
 ## Schema 
-![current trello-clone database schema](https://i.imgur.com/MsWygug.png)
+![current trello-clone database schema](http://i.imgur.com/QIQv7nj.png)
 
 # Heroku
 https://trello-clone-app.herokuapp.com

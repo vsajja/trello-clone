@@ -39,8 +39,9 @@ class TrelloCloneService {
         cardDao = new CardDao(context.configuration())
     }
 
-    public List<Board> getBoards() {
+    public List<Board> getBoards(String userId) {
         List<Board> boards = context.selectFrom(BOARD)
+                .where(BOARD.USER_ID.equal(userId))
                 .fetch()
                 .into(Board.class)
         return boards
@@ -63,8 +64,9 @@ class TrelloCloneService {
         return board
     }
 
-    public Board createBoard(String name) {
+    public Board createBoard(String userId, String name) {
         Board board = context.insertInto(BOARD)
+                .set(BOARD.USER_ID, userId)
                 .set(BOARD.NAME, name)
                 .returning()
                 .fetchOne()

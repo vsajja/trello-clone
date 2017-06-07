@@ -88,10 +88,12 @@ ratpack {
                 }
             }
 
-            path('boards') {
+            path('users/:userId/boards') {
+                def userId = pathTokens['userId']
+
                 byMethod {
                     get {
-                        def boards = trelloCloneService.getBoards()
+                        def boards = trelloCloneService.getBoards(userId)
                         render json(boards)
                     }
 
@@ -100,7 +102,7 @@ ratpack {
                             def name = params.get('name')?.textValue()
                             assert name
 
-                            trelloCloneService.createBoard(name)
+                            trelloCloneService.createBoard(userId, name)
                         }.onError { Throwable e ->
                             if(e.message.contains('unique constraint')) {
                                 clientError(409)
