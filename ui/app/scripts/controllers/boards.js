@@ -28,8 +28,11 @@ angular.module('trelloCloneApp')
       templateUrl: 'CreateTeamPopoverTemplate.html'
     };
 
+    var userId = null;
     var currentUser = AuthenticationService.GetCurrentUser();
-    var userId = currentUser.userId;
+    if(currentUser) {
+      userId = currentUser.userId;
+    }
 
     var user = Restangular.one('users', userId);
     var teams = Restangular.all('teams');

@@ -1,0 +1,57 @@
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
+ */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.navbar {
+  background-image: none;
+  background-color: dodgerblue;
+}
+
+.navbar-header {
+  float: left;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.navbar-brand {
+  float: none;
+}
+
+.trelloCloneIcon {
+  color: lightblue;
+}
+
+.trelloCloneIcon:hover {
+  color: white;
+}
+
+.trelloCloneIconText {
+  font-family: "Bradley Hand ITC";
+  font-size: xx-large;
+  color: lightblue;
+}
+
+.body {
+  background-color: dodgerblue;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a, .navbar-default .navbar-nav .open .dropdown-menu {
+  background-color: dodgerblue !important;
+  color:#ffffff;
+}
+
+.navbar-default .dropdown-menu {
+  background-color: dodgerblue !important;
+  color:#ffffff;
+}
+
+.dropdown-toggle:active, .open .dropdown-toggle {
+  background:dodgerblue !important;
+  color:#000 !important;
+}

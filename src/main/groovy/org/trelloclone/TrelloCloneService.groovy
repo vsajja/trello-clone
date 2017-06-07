@@ -66,7 +66,7 @@ class TrelloCloneService {
 
     public Board createBoard(String userId, String name) {
         Board board = context.insertInto(BOARD)
-                .set(BOARD.USER_ID, userId)
+                .set(BOARD.USER_ID, (String) userId)
                 .set(BOARD.NAME, name)
                 .returning()
                 .fetchOne()
@@ -139,7 +139,7 @@ class TrelloCloneService {
         TeamBoard teamBoard = null
 
         context.transaction {
-            Board board = createBoard(name)
+            Board board = createBoard(null, name)
 
             teamBoard = context.insertInto(TEAM_BOARD)
                     .set(TEAM_BOARD.TEAM_ID, teamId)
