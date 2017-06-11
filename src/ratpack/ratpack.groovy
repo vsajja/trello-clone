@@ -114,10 +114,11 @@ ratpack {
                 }
             }
 
-            path('teams') {
+            path('users/:userId/teams') {
+                def userId = pathTokens['userId']
                 byMethod {
                     get {
-                        def teams = trelloCloneService.getTeams()
+                        def teams = trelloCloneService.getTeams(userId)
                         render json(teams)
                     }
 
@@ -127,7 +128,7 @@ ratpack {
                             def description = params.get('description')?.textValue()
                             assert name
 
-                            trelloCloneService.createTeam(name, description)
+                            trelloCloneService.createTeam(userId, name, description)
                         }.onError { Throwable e ->
                             if(e.message.contains('unique constraint')) {
                                 clientError(409)

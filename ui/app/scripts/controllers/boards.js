@@ -9,7 +9,7 @@
  *
  */
 angular.module('trelloCloneApp')
-  .controller('BoardsCtrl', ['$scope', 'Restangular', 'AuthenticationService',  function ($scope, Restangular, AuthenticationService) {
+  .controller('BoardsCtrl', ['$scope', 'Restangular', 'AuthenticationService', function ($scope, Restangular, AuthenticationService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -30,12 +30,11 @@ angular.module('trelloCloneApp')
 
     var userId = null;
     var currentUser = AuthenticationService.GetCurrentUser();
-    if(currentUser) {
+    if (currentUser) {
       userId = currentUser.userId;
     }
 
     var user = Restangular.one('users', userId);
-    var teams = Restangular.all('teams');
     var boards = Restangular.all('boards');
 
     $scope.getBoards = function () {
@@ -45,8 +44,8 @@ angular.module('trelloCloneApp')
     };
 
     $scope.getTeams = function () {
-      teams.customGET().then(function (response) {
-        $scope.teams = response.teams;
+      user.customGET('teams').then(function (teams) {
+        $scope.teams = teams.teams;
       });
     };
 
@@ -60,11 +59,11 @@ angular.module('trelloCloneApp')
     };
 
     $scope.createTeam = function (newTeam) {
-      teams.customPOST(angular.toJson(newTeam, true)).then(function () {
+      user.post('teams', angular.toJson(newTeam, true)).then(function () {
         $scope.newTeam = null;
         $scope.refreshBoards();
       }, function () {
-        window.alert('Unable to create team, name must be unique.');
+        window.alert('Error! Unable to create team.');
       });
     };
 
@@ -73,7 +72,7 @@ angular.module('trelloCloneApp')
       team.post('boards', angular.toJson(newTeamBoard, true)).then(function () {
         $scope.refreshBoards();
       }, function () {
-        window.alert('Unable to create team board');
+        window.alert('Error! Unable to create team board');
       });
     };
 

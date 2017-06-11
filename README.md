@@ -31,10 +31,10 @@ The purpose of this project is to create a simple Trello clone for demonstration
 * user
     * GET /users/{user_id}/boards
     * POST /users/{user_id}/boards
+    * GET /users/{user_id}/teams
+    * POST /users/{user_id}/teams
 
 * team
-    * GET /teams
-    * POST /teams
     * POST /teams/{team_id}/boards
    
 * board
@@ -57,7 +57,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
 # Database
 
 ## Schema 
-![current trello-clone database schema](http://i.imgur.com/QIQv7nj.png)
+![current trello-clone database schema](http://i.imgur.com/rJjfidm.png)
 
 # Heroku
 https://trello-clone-app.herokuapp.com

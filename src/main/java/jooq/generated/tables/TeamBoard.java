@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TeamBoard extends TableImpl<TeamBoardRecord> {
 
-	private static final long serialVersionUID = -546979556;
+	private static final long serialVersionUID = 1177727548;
 
 	/**
 	 * The reference instance of <code>public.team_board</code>
@@ -100,7 +100,7 @@ public class TeamBoard extends TableImpl<TeamBoardRecord> {
 	 */
 	@Override
 	public UniqueKey<TeamBoardRecord> getPrimaryKey() {
-		return Keys.TEAM_BOARD_TEAM_BOARD_ID_PK;
+		return Keys.TEAM_BOARD_PKEY;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class TeamBoard extends TableImpl<TeamBoardRecord> {
 	 */
 	@Override
 	public List<UniqueKey<TeamBoardRecord>> getKeys() {
-		return Arrays.<UniqueKey<TeamBoardRecord>>asList(Keys.TEAM_BOARD_TEAM_BOARD_ID_PK);
+		return Arrays.<UniqueKey<TeamBoardRecord>>asList(Keys.TEAM_BOARD_PKEY);
 	}
 
 	/**

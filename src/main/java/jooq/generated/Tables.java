@@ -11,6 +11,7 @@ import jooq.generated.tables.BoardList;
 import jooq.generated.tables.Card;
 import jooq.generated.tables.Team;
 import jooq.generated.tables.TeamBoard;
+import jooq.generated.tables.TeamMember;
 import jooq.generated.tables.User;
 
 
@@ -51,6 +52,11 @@ public class Tables {
 	 * The table public.team_board
 	 */
 	public static final TeamBoard TEAM_BOARD = jooq.generated.tables.TeamBoard.TEAM_BOARD;
+
+	/**
+	 * The table public.team_member
+	 */
+	public static final TeamMember TEAM_MEMBER = jooq.generated.tables.TeamMember.TEAM_MEMBER;
 
 	/**
 	 * The table public.user

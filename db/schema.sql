@@ -1,9 +1,10 @@
 CREATE TABLE board
 (
     board_id INTEGER PRIMARY KEY NOT NULL,
-    name VARCHAR
+    name VARCHAR,
+    user_id INTEGER,
+    CONSTRAINT board_user_user_id_fk FOREIGN KEY (user_id) REFERENCES "user" (user_id)
 );
-CREATE UNIQUE INDEX board_name_uindex ON board (name);
 CREATE TABLE board_list
 (
     list_id INTEGER PRIMARY KEY NOT NULL,
@@ -32,7 +33,15 @@ CREATE TABLE team_board
     team_id INTEGER,
     board_id INTEGER,
     CONSTRAINT team_board_team_team_id_fk FOREIGN KEY (team_id) REFERENCES team (team_id),
-    CONSTRAINT team_board_board_board_id_fk FOREIGN KEY ("?") REFERENCES board (board_id)
+    CONSTRAINT team_board_board_board_id_fk FOREIGN KEY (board_id) REFERENCES board (board_id)
+);
+CREATE TABLE team_member
+(
+    team_member_id INTEGER PRIMARY KEY NOT NULL,
+    team_id INTEGER,
+    user_id INTEGER,
+    CONSTRAINT team_member_team_team_id_fk FOREIGN KEY (team_id) REFERENCES team (team_id),
+    CONSTRAINT team_member_user_user_id_fk FOREIGN KEY (user_id) REFERENCES "user" (user_id)
 );
 CREATE TABLE "user"
 (
@@ -40,3 +49,4 @@ CREATE TABLE "user"
     username VARCHAR,
     password VARCHAR
 );
+CREATE UNIQUE INDEX user_username_uindex ON "user" (username);

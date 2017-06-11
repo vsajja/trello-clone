@@ -114,48 +114,48 @@
         </script>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-12">
-      <br/>
-      <div class="col-md-3">
-        <a popover-trigger="'outsideClick'" popover-placement="auto bottom-left"
-           uib-popover-template="createTeamPopover.templateUrl"
-           style="border-bottom: 1px solid black; text-decoration: none"><span
-          class="panel-title">Create a new team...
+  <div class="col-md-12">
+    <br/>
+    <div class="col-md-3">
+      <a popover-trigger="'outsideClick'" popover-placement="auto bottom-left"
+         uib-popover-template="createTeamPopover.templateUrl"
+         style="border-bottom: 1px solid black; text-decoration: none"><span
+        class="panel-title">Create a new team...
               </span></a>
 
-        <script type="text/ng-template" id="CreateTeamPopoverTemplate.html">
-          <div style="text-align: center">Create Team</div>
+      <script type="text/ng-template" id="CreateTeamPopoverTemplate.html">
+        <div style="text-align: center">Create Team</div>
 
-          <!-- FORM -->
-          <form ng-submit="createTeam(newTeam)">
-            <!-- NAME -->
-            <div class="form-group">
-              <label>Name</label>
-              <input type="text" name="name" class="form-control" placeholder="Team name.."
-                     ng-model="newTeam.name"
-                     required>
-              <span class="help-block"></span>
-            </div>
+        <!-- FORM -->
+        <form ng-submit="createTeam(newTeam)">
+          <!-- NAME -->
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Team name.."
+                   ng-model="newTeam.name"
+                   required>
+            <span class="help-block"></span>
+          </div>
 
-            <!-- DESCRIPTION -->
-            <div id="name-group" class="form-group">
-              <label>Description (Optional)</label>
+          <!-- DESCRIPTION -->
+          <div id="name-group" class="form-group">
+            <label>Description (Optional)</label>
 
-              <textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"
-                        class="form-control" placeholder="Description" ng-model="newTeam.description"></textarea>
-              <span class="help-block"></span>
-            </div>
+            <textarea style="height:125px; resize: none;" cols="30" rows="10" name="description"
+                      class="form-control" placeholder="Description" ng-model="newTeam.description"></textarea>
+            <span class="help-block"></span>
+          </div>
 
-            <!-- SUBMIT BUTTON -->
-            <button type="submit" class="btn btn-success btn-block">
-              Create
-            </button>
+          <!-- SUBMIT BUTTON -->
+          <button type="submit" class="btn btn-success btn-block">
+            Create
+          </button>
 
-            <p>A team is a group of boards and people. It helps keep your company, team, or family organized.</p>
-          </form>
-        </script>
-      </div>
+          <p>A team is a group of boards and people. It helps keep your company, team, or family organized.</p>
+        </form>
+      </script>
     </div>
   </div>
 </div>

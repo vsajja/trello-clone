@@ -7,6 +7,7 @@ import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
 import jooq.generated.tables.pojos.Card
 import jooq.generated.tables.pojos.Team
+import jooq.generated.tables.pojos.TeamMember
 import jooq.generated.tables.pojos.User
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -94,7 +95,7 @@ class TrelloCloneService {
      * value: team details and team boards
      * TODO: add further documentation
      */
-    def getTeams() {
+    def getTeams(String userId) {
         RecordMapper keyMapper = new RecordMapper() {
             Object map(Record record) {
                 return record.into(TEAM).into(Team.class)
@@ -116,6 +117,8 @@ class TrelloCloneService {
                 .from(TEAM)
                 .leftJoin(TEAM_BOARD).on(TEAM.TEAM_ID.eq(TEAM_BOARD.TEAM_ID))
                 .leftJoin(BOARD).on(BOARD.BOARD_ID.eq(TEAM_BOARD.BOARD_ID))
+                .leftJoin(TEAM_MEMBER).on(TEAM.TEAM_ID.eq(TEAM_MEMBER.TEAM_ID))
+                .where(TEAM_MEMBER.USER_ID.equal(userId))
                 .fetchGroups(keyMapper, valueMapper)
 
         def result = teams.collectEntries { Team team, List<Board> teamBoards ->
@@ -125,6 +128,7 @@ class TrelloCloneService {
         return ['teams': result]
     }
 
+
     public Team createTeam(String name, String description) {
         Team team = context.insertInto(TEAM)
                 .set(TEAM.NAME, name)
@@ -132,6 +136,21 @@ class TrelloCloneService {
                 .returning()
                 .fetchOne()
                 .into(Team.class)
+        return team
+    }
+
+    public Team createTeam(String userId, String name, String description) {
+        Team team = null
+        context.transaction {
+            team = createTeam(name, description)
+            TeamMember teamMember = context.insertInto(TEAM_MEMBER)
+                        .set(TEAM_MEMBER.TEAM_ID, team.teamId)
+                        .set(TEAM_MEMBER.USER_ID, userId)
+                        .returning()
+                        .fetchOne()
+                        .into(TeamMember.class)
+            team
+        }
         return team
     }
 
