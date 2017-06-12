@@ -84,10 +84,12 @@
     in List <strong>{{$ctrl.list.name}}</strong>
   </div>
   <div class="modal-body" id="modal-body" style="min-height: 300px;">
-    {{$ctrl.card}}
-
-    <a onaftersave="$ctrl.updateCard($ctrl.card.listId, $ctrl.card)" editable-textarea="$ctrl.card.description" e-rows="7" e-cols="40">
-      <pre>{{ $ctrl.card.description || 'Click to add a card description!' }}</pre>
+    <!--{{$ctrl.card}}-->
+    <a onaftersave="$ctrl.updateCard($ctrl.card.listId, $ctrl.card)" editable-textarea="$ctrl.card.description"
+       e-rows="7" e-cols="40">
+      <i class="fa fa-pencil" aria-hidden="true" style="float: right"></i>
+      <div btf-markdown="$ctrl.card.description || 'Click to add a card description!'">
+      </div>
     </a>
   </div>
   <div class="modal-footer">

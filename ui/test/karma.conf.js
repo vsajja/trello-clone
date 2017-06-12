@@ -38,6 +38,8 @@ module.exports = function(config) {
       'bower_components/angular-base64/angular-base64.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/angular-xeditable/dist/js/xeditable.js',
+      'bower_components/showdown/src/showdown.js',
+      'bower_components/angular-markdown-directive/markdown.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

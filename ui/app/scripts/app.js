@@ -23,7 +23,8 @@ var trelloCloneApp = angular
     'dndLists',
     'base64',
     'LocalStorageModule',
-    'xeditable'
+    'xeditable',
+    'btford.markdown'
   ])
   .config(function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider, localStorageServiceProvider) {
     $routeProvider
