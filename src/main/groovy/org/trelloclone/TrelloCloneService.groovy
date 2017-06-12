@@ -232,12 +232,16 @@ class TrelloCloneService {
         return result
     }
 
+    public void addCard(Card card) {
+        cardDao.insert(card)
+    }
+
     public void updateCards(List<Card> cardsToUpdate) {
         cardDao.update(cardsToUpdate)
     }
 
-    public void addCard(Card card) {
-        cardDao.insert(card)
+    public void updateCard(Card card) {
+        cardDao.update(card)
     }
 
     /**

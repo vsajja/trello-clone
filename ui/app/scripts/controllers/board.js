@@ -76,7 +76,6 @@ angular.module('trelloCloneApp')
       });
     };
 
-
     function initController() {
       $scope.getBoard();
       $scope.getBoardLists();
@@ -86,7 +85,7 @@ angular.module('trelloCloneApp')
   }]);
 
 
-angular.module('trelloCloneApp').controller('ModalDemoCtrl', function ($uibModal) {
+angular.module('trelloCloneApp').controller('CardDetailCtrl', function ($scope, $uibModal) {
   var $ctrl = this;
   $ctrl.open = function (card, listDetails) {
     var modalInstance = $uibModal.open({
@@ -94,7 +93,7 @@ angular.module('trelloCloneApp').controller('ModalDemoCtrl', function ($uibModal
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
       templateUrl: 'cardContent.html',
-      controller: 'CardContentCtrl',
+      controller: 'CardDetailContentCtrl',
       controllerAs: '$ctrl',
       resolve: {
         card: function () {
@@ -114,7 +113,7 @@ angular.module('trelloCloneApp').controller('ModalDemoCtrl', function ($uibModal
   };
 });
 
-angular.module('trelloCloneApp').controller('CardContentCtrl', function ($uibModalInstance, card, list) {
+angular.module('trelloCloneApp').controller('CardDetailContentCtrl', function ($scope, $uibModalInstance, card, list, Restangular) {
   var $ctrl = this;
 
   $ctrl.card = card;
@@ -126,5 +125,17 @@ angular.module('trelloCloneApp').controller('CardContentCtrl', function ($uibMod
 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
+  };
+
+  $ctrl.updateCard = function (listId, card) {
+    console.log(listId);
+    console.log(card);
+    var cards = Restangular.one('lists', listId).all('cards');
+    cards.customPUT(angular.toJson(card, true)).then(function () {
+      // refresh board lists
+      // $scope.getBoardLists();
+    }, function () {
+      window.alert('Unable to update card details.');
+    });
   };
 });

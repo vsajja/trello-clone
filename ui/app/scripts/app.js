@@ -22,7 +22,8 @@ var trelloCloneApp = angular
     'smart-table',
     'dndLists',
     'base64',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'xeditable'
   ])
   .config(function ($routeProvider, $locationProvider, $compileProvider, RestangularProvider, localStorageServiceProvider) {
     $routeProvider

@@ -17,7 +17,7 @@
                   dnd-selected="boardLists.selected = card"
               >
 
-                <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+                <div ng-controller="CardDetailCtrl as $ctrl">
                   <a ng-click="$ctrl.open(card, list.details)">
                     {{card.name}}
                   </a>
@@ -83,11 +83,12 @@
     <h4 class="modal-title" id="modal-title">{{$ctrl.card.name}}</h4>
     in List <strong>{{$ctrl.list.name}}</strong>
   </div>
-  <div class="modal-body" id="modal-body">
-    <div>
-      An awesome card description.
-      <!--{{$ctrl.card.description}}-->
-    </div>
+  <div class="modal-body" id="modal-body" style="min-height: 300px;">
+    {{$ctrl.card}}
+
+    <a onaftersave="$ctrl.updateCard($ctrl.card.listId, $ctrl.card)" editable-textarea="$ctrl.card.description" e-rows="7" e-cols="40">
+      <pre>{{ $ctrl.card.description || 'Click to add a card description!' }}</pre>
+    </a>
   </div>
   <div class="modal-footer">
     <!--<button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>-->

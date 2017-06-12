@@ -271,6 +271,25 @@ ratpack {
                             response.send()
                         }
                     }
+
+                    put {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+
+                            def cardId = params.get('cardId')?.intValue()
+                            def name = params.get('name')?.textValue()
+                            def description = params.get('description')?.textValue()
+
+                            assert cardId
+                            assert name
+
+                            Card card = new Card(cardId, name, description, Integer.parseInt(listId))
+
+                            trelloCloneService.updateCard(card)
+                        }.then {
+                            response.send()
+                        }
+                    }
                 }
             }
 
