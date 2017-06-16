@@ -6,6 +6,7 @@ import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.BoardList
 import jooq.generated.tables.pojos.Card
 import jooq.generated.tables.pojos.Team
+import jooq.generated.tables.pojos.TeamMember
 import jooq.generated.tables.pojos.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,7 +17,6 @@ import org.trelloclone.postgres.PostgresModule
 import ratpack.groovy.sql.SqlModule
 import ratpack.handling.RequestLogger
 import ratpack.hikari.HikariModule
-import ratpack.http.Response
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
@@ -88,6 +88,15 @@ ratpack {
                 }
             }
 
+            path('users') {
+                byMethod {
+                    get {
+                        def users = trelloCloneService.getUsers()
+                        render json(users)
+                    }
+                }
+            }
+
             path('users/:userId/boards') {
                 def userId = pathTokens['userId']
 
@@ -137,6 +146,48 @@ ratpack {
                         }.then { Team team ->
                             render json(team)
                         }
+                    }
+                }
+            }
+
+            path('teams/:teamId/members') {
+                def teamId = pathTokens['teamId']
+                byMethod {
+                    get {
+                        def teamMembers = trelloCloneService.getTeamMembers(teamId)
+                        render json(teamMembers)
+                    }
+
+                    post {
+                        parse(jsonNode()).map { params ->
+                            log.info(params.toString())
+
+                            def userId = (String) params.get('userId')?.intValue()
+                            def username = params.get('username')?.textValue()
+
+                            assert userId
+                            assert username
+
+                            trelloCloneService.addTeamMember(teamId, userId)
+                        }.onError { Throwable e ->
+                            if(e.message.contains('unique constraint')) {
+                                clientError(409)
+                            }
+                            throw e
+                        }.then { TeamMember teamMember ->
+                            render json(teamMember)
+                        }
+                    }
+                }
+            }
+
+            path('teams/members/:teamMemberId') {
+                def teamMemberId = pathTokens['teamMemberId']
+                byMethod {
+                    delete {
+                        log.info('delete' + teamMemberId)
+                        trelloCloneService.removeTeamMember(teamMemberId)
+                        render 'delete'
                     }
                 }
             }

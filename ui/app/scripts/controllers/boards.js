@@ -28,6 +28,10 @@ angular.module('trelloCloneApp')
       templateUrl: 'CreateTeamPopoverTemplate.html'
     };
 
+    $scope.createTeamMemberPopover = {
+      templateUrl: 'CreateTeamMemberPopoverTemplate.html'
+    };
+
     var userId = null;
     var currentUser = AuthenticationService.GetCurrentUser();
     if (currentUser) {
@@ -36,6 +40,13 @@ angular.module('trelloCloneApp')
 
     var user = Restangular.one('users', userId);
     var boards = Restangular.all('boards');
+
+    $scope.getUsers = function () {
+      var users = Restangular.all('users');
+      users.customGET().then(function (users) {
+        $scope.users = users;
+      });
+    };
 
     $scope.getBoards = function () {
       user.customGET('boards').then(function (boards) {
@@ -46,6 +57,29 @@ angular.module('trelloCloneApp')
     $scope.getTeams = function () {
       user.customGET('teams').then(function (teams) {
         $scope.teams = teams.teams;
+      });
+    };
+
+    $scope.addTeamMember = function (teamId, user) {
+      var team = Restangular.one('teams', teamId);
+      team.post('members', angular.toJson(user, true)).then(function () {
+        $scope.getTeamMembers(teamId);
+      }, function (error) {
+        // conflict
+        if (error.status === 409) {
+          window.alert('Unable to add team member, username ' + user.username + ' already exists!');
+        }
+        else {
+          window.alert('Unable to add team member!');
+        }
+      });
+    };
+
+    $scope.removeTeamMember = function (teamId, teamMemberId) {
+      var teamMember = Restangular.one('teams/members', teamMemberId);
+      teamMember.remove().then(function () {
+        console.log('deleted ' + teamMemberId);
+        $scope.getTeamMembers(teamId);
       });
     };
 
@@ -82,9 +116,17 @@ angular.module('trelloCloneApp')
       });
     };
 
+    $scope.getTeamMembers = function (teamId) {
+      var team = Restangular.one('teams', teamId);
+      team.getList('members').then(function (members) {
+        $scope.teamMembers = Restangular.stripRestangular(members);
+      });
+    };
+
     $scope.refreshBoards = function refreshBoards() {
       $scope.getBoards();
       $scope.getTeams();
+      $scope.getUsers();
     };
 
     $scope.refreshBoards();

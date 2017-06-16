@@ -128,6 +128,48 @@ class TrelloCloneService {
         return ['teams': result]
     }
 
+    def getTeamMembers(String teamId) {
+        RecordMapper keyMapper = new RecordMapper() {
+            Object map(Record record) {
+                def userId = record.getValue(USER.USER_ID)
+                def username = record.getValue(USER.USERNAME)
+                def teamMemberId = record.getValue(TEAM_MEMBER.TEAM_MEMBER_ID)
+                def user = ['teamMemberId' : teamMemberId, 'userId' : userId, 'username' : username]
+                return user
+            }
+        }
+
+        def teamMembers = context.select(TEAM_MEMBER.TEAM_MEMBER_ID, USER.USER_ID, USER.USERNAME)
+                .from(USER)
+                .leftJoin(TEAM_MEMBER).on(USER.USER_ID.eq(TEAM_MEMBER.USER_ID))
+                .where(TEAM_MEMBER.TEAM_ID.equal(teamId))
+                .fetch(keyMapper)
+
+        return teamMembers
+    }
+
+    public TeamMember addTeamMember(String teamId, String userId) {
+        TeamMember teamMember = context.insertInto(TEAM_MEMBER)
+                .set(TEAM_MEMBER.TEAM_ID, teamId)
+                .set(TEAM_MEMBER.USER_ID, userId)
+                .returning()
+                .fetchOne()
+                .into(TeamMember.class)
+        return teamMember
+    }
+
+    /**
+     *
+     * @param teamMemberId
+     * @return
+     * the number of deleted records
+     */
+    public int removeTeamMember(String teamMemberId) {
+        def result = context.delete(TEAM_MEMBER)
+                .where(TEAM_MEMBER.TEAM_MEMBER_ID.equal(teamMemberId))
+                .execute()
+        return result
+    }
 
     public Team createTeam(String name, String description) {
         Team team = context.insertInto(TEAM)
@@ -255,6 +297,23 @@ class TrelloCloneService {
                 .where(CARD.CARD_ID.equal(cardId))
                 .execute()
         return result
+    }
+
+    def getUsers() {
+        RecordMapper keyMapper = new RecordMapper() {
+            Object map(Record record) {
+                def userId = record.getValue(USER.USER_ID)
+                def username = record.getValue(USER.USERNAME)
+                def user = ['userId' : userId, 'username' : username]
+                return user
+            }
+        }
+
+        def users = context.select(USER.USER_ID, USER.USERNAME)
+            .from(USER)
+            .fetch(keyMapper)
+
+        return users
     }
 
     public User getUser(String username) {

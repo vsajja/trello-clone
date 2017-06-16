@@ -37,12 +37,15 @@ CREATE TABLE team_board
 );
 CREATE TABLE team_member
 (
-    team_member_id INTEGER PRIMARY KEY NOT NULL,
+    team_member_id INTEGER DEFAULT nextval('team_member_team_member_id_seq'::regclass) NOT NULL,
     team_id INTEGER,
     user_id INTEGER,
     CONSTRAINT team_member_team_team_id_fk FOREIGN KEY (team_id) REFERENCES team (team_id),
     CONSTRAINT team_member_user_user_id_fk FOREIGN KEY (user_id) REFERENCES "user" (user_id)
 );
+CREATE UNIQUE INDEX team_member_pkey ON team_member (team_member_id);
+CREATE UNIQUE INDEX team_member_unique_index ON team_member (team_id, user_id);
+CREATE INDEX team_member_unique_index ON team_member (team_id, user_id);
 CREATE TABLE "user"
 (
     user_id INTEGER PRIMARY KEY NOT NULL,
