@@ -5,12 +5,12 @@
       <div ng-repeat="(listId, list) in boardLists.lists" class="col-md-3">
         <div class="panel panel-info">
           <div class="panel-heading"><i ng-click="deleteBoardList(listId)" class="fa fa-trash" aria-hidden="true"
-                                        style="color: red;float: right"></i>
+                                        style="color: lightgrey;float: right"></i>
             <h3 class="panel-title">{{list.details.name}}</h3>
           </div>
           <div class="panel-body">
             <ul dnd-list="list.cards">
-              <li ng-repeat="card in list.cards"
+              <li class="list-card" ng-repeat="card in list.cards"
                   dnd-draggable="card"
                   dnd-moved="list.cards.splice($index, 1);updateLists()"
                   dnd-effect-allowed="move"
@@ -21,12 +21,11 @@
                   <a ng-click="$ctrl.open(card, list.details)">
                     {{card.name}}
                   </a>
-                  <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="color: red;float:right"
+                  <i ng-click="deleteCard(card.cardId)" class="fa fa-trash" style="color: lightgrey;float:right"
                      aria-hidden="true"></i>
                 </div>
               </li>
             </ul>
-
 
             <div class="panel-footer addCard">
               <form ng-submit="addCard(listId, newCard); newCard=null">

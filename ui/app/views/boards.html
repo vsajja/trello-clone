@@ -12,7 +12,7 @@
             <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none"><span class="panel-title">{{board.name}}
               </span></a>
 
-            <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:red; float:right"></i>
+            <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:lightgrey; float:right"></i>
           </div>
           <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none">
             <div class="trelloCloneBoardsBody panel-body">
@@ -81,7 +81,7 @@
                   <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none"><span class="panel-title">{{board.name}}
               </span></a>
 
-                  <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:red; float:right"></i>
+                  <i class="fa fa-trash" ng-click="deleteBoard(board.boardId)" style="color:lightgrey; float:right"></i>
                 </div>
                 <a ng-href="#/board/{{board.boardId}}" style="text-decoration: none">
                   <div class="trelloCloneBoardsBody panel-body">
@@ -140,6 +140,8 @@
                 <script type="text/ng-template" id="CreateTeamMemberPopoverTemplate.html">
                   <!-- FORM -->
                   <form ng-submit="addTeamMember(team.details.teamId, selected)">
+                    <div style="text-align: center">Add Team Member</div>
+                    <br/>
 
                     <input type="text" ng-model="selected"
                            uib-typeahead="user as user.username for user in users | filter:$viewValue | limitTo:8"
