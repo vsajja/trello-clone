@@ -1,32 +1,39 @@
 package org.trelloclone
 
-import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
-import ratpack.test.http.TestHttpClient
-import spock.lang.AutoCleanup
+import jooq.generated.tables.daos.UserDao
+import org.jooq.Configuration
+import org.jooq.DSLContext
+import org.jooq.SQLDialect
+import org.jooq.impl.DSL
+import org.jooq.impl.DefaultConfiguration
+import org.trelloclone.postgres.PostgresConfig
+import org.trelloclone.postgres.PostgresModule
 import spock.lang.Shared
 import spock.lang.Specification
-import spock.lang.Stepwise
 
-@Stepwise
-public class TrelloCloneSpec extends Specification {
-    @AutoCleanup
+import javax.sql.DataSource
+
+class TrelloCloneSpec extends Specification {
     @Shared
-    GroovyRatpackMainApplicationUnderTest sut = new GroovyRatpackMainApplicationUnderTest()
+    DSLContext context
 
-    @Delegate
-    TestHttpClient httpClient = sut.httpClient
+    @Shared
+    UserDao userDao
 
     def setupSpec() {
-    }
+        Properties props = new Properties()
+        props.load(new FileInputStream('src/ratpack/db.properties'))
 
-    def cleanupSpec() {
-    }
+        PostgresConfig postgresConfig = new PostgresConfig()
+        postgresConfig.user = props.get('postgres.user')
+        postgresConfig.password = props.get('postgres.password')
+        postgresConfig.serverName = props.get('postgres.serverName')
+        postgresConfig.databaseName = props.get('postgres.databaseName')
 
-    def "get boards"() {
-        when:
-        get('api/v1/boards')
+        DataSource dataSource = new PostgresModule().dataSource(postgresConfig)
+        Configuration configuration = new DefaultConfiguration().set(dataSource).set(SQLDialect.POSTGRES)
 
-        then:
-        response.statusCode == 200
+        userDao = new UserDao(configuration)
+        context = DSL.using(dataSource, SQLDialect.POSTGRES);
     }
 }

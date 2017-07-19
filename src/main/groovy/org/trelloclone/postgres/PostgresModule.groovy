@@ -19,7 +19,6 @@ class PostgresModule extends ConfigurableModule<PostgresConfig> {
     }
 
     protected DataSource createDataSource(final PostgresConfig config) {
-        println config.toString()
         new PGSimpleDataSource(
                 user: config.user,
                 password: config.password,

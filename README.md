@@ -22,39 +22,37 @@ The purpose of this project is to create a simple Trello clone for demonstration
 # Server
 
 ## REST API
-    
-* user
-    * GET /users
-    * GET /users/{user_id}/boards
-    * POST /users/{user_id}/boards
-    * GET /users/{user_id}/teams
-    * POST /users/{user_id}/teams
 
-* team
-    * POST /teams/{team_id}/boards
-    * GET /teams/{team_id}/members
-    * POST /teams/{team_id}/members
+#### user
+- **[<code>POST</code> register](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/POST_register.md)**
+- **[<code>POST</code> login](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/POST_login.md)**
+- **[<code>GET</code> users]()**
+- **[<code>GET</code> users/:user_id/boards]()**
+- **[<code>POST</code> users/:user_id/boards]()**
+- **[<code>GET</code> users/:user_id/teams]()**
+- **[<code>POST</code> users/:user_id/teams]()**
 
-* team_member
-    * DELETE /teams/members/{team_member_id}
-       
-* board
-    * GET /boards/{board_id}
-    * DELETE /boards/{board_id}
+#### team
+- **[<code>POST</code> teams/:team_id/boards]()**
+- **[<code>GET</code> teams/:team_id/members]()**
+- **[<code>POST</code> teams/:team_id/members]()**
 
-* board_list
-    * GET /boards/{board_id}/lists
-    * POST /boards/{board_id}/lists
-    * PUT /boards/{board_id}/lists
-    * DELETE /boards/{board_id}/lists/{board_list_id}
+#### team_member
+- **[<code>DELETE</code> teams/members/:team_member_id]()**
 
-* card
-    * POST /lists/{list_id}/cards
-    * PUT /lists/{list_id}/cards
-    * DELETE /cards/{card_id}
+#### board
+- **[<code>GET</code> boards/:board_id]()**
+- **[<code>DELETE</code> boards/:board_id]()**
 
-* POST /login
-* POST /register
+#### board_list
+- **[<code>GET</code> boards/:board_id/lists]()**
+- **[<code>POST</code> boards/:board_id/lists]()**
+- **[<code>DELETE</code> boards/:board_id/lists/board_list_id]()**
+
+#### card
+- **[<code>POST</code> lists/:list_id/cards]()**
+- **[<code>PUT</code> lists/:list_id/cards]()**
+- **[<code>DELETE</code> cards/:card_id]()**
 
 # Database
 

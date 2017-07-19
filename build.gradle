@@ -78,3 +78,9 @@ task jooqCodegen {
         GenerationTool.generate(configuration)
     }
 }
+
+test {
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}

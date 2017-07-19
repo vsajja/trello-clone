@@ -50,25 +50,6 @@ ratpack {
                 next()
             }
 
-            post('login') {
-                parse(jsonNode()).map { params ->
-                    def username = params.get('username')?.textValue()
-                    def password = params.get('password')?.textValue()
-
-                    assert username
-                    assert password
-
-                    trelloCloneService.login(username, password)
-                }.onError { Throwable e ->
-                    if(e instanceof InvalidCredentialsException) {
-                        clientError(401)
-                    }
-                    throw e
-                }.then { User user ->
-                    render json(user)
-                }
-            }
-
             post('register') {
                 parse(jsonNode()).map { params ->
                     def username = params.get('username')?.textValue()
@@ -81,6 +62,25 @@ ratpack {
                 }.onError { Throwable e ->
                     if(e.message.contains('unique constraint')) {
                         clientError(409)
+                    }
+                    throw e
+                }.then { User user ->
+                    render json(user)
+                }
+            }
+
+            post('login') {
+                parse(jsonNode()).map { params ->
+                    def username = params.get('username')?.textValue()
+                    def password = params.get('password')?.textValue()
+
+                    assert username
+                    assert password
+
+                    trelloCloneService.login(username, password)
+                }.onError { Throwable e ->
+                    if(e instanceof InvalidCredentialsException) {
+                        clientError(401)
                     }
                     throw e
                 }.then { User user ->
