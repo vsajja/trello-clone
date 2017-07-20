@@ -1,6 +1,7 @@
 package org.trelloclone
 
 import groovy.json.JsonOutput
+import jooq.generated.tables.daos.BoardDao
 import jooq.generated.tables.daos.UserDao
 import org.jooq.Configuration
 import org.jooq.DSLContext
@@ -22,6 +23,9 @@ class TrelloCloneSpec extends Specification {
     @Shared
     UserDao userDao
 
+    @Shared
+    BoardDao boardDao
+
     def setupSpec() {
         Properties props = new Properties()
         props.load(new FileInputStream('src/ratpack/db.properties'))
@@ -36,6 +40,7 @@ class TrelloCloneSpec extends Specification {
         Configuration configuration = new DefaultConfiguration().set(dataSource).set(SQLDialect.POSTGRES)
 
         userDao = new UserDao(configuration)
+        boardDao = new BoardDao(configuration)
         context = DSL.using(dataSource, SQLDialect.POSTGRES);
     }
 

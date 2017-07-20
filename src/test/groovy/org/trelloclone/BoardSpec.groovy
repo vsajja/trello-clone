@@ -3,6 +3,7 @@ package org.trelloclone
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
+import jooq.generated.tables.pojos.Board
 import jooq.generated.tables.pojos.User
 import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
 import ratpack.http.client.RequestSpec
@@ -30,6 +31,9 @@ public class BoardSpec extends TrelloCloneSpec {
     @Shared
     User vsajja
 
+    @Shared
+    Board welcomeBoard
+
     def setupSpec() {
         vsajja = new User(null, TEST_USER_VSAJJA_USERNAME, null)
         userDao.insert(vsajja)
@@ -37,7 +41,8 @@ public class BoardSpec extends TrelloCloneSpec {
     }
 
     def cleanupSpec() {
-        // delete all boards for test user and the user
+        // delete all test boards and users
+        context.deleteFrom(BOARD).where(BOARD.NAME.equal(TEST_BOARD_WELCOME_NAME)).execute()
         context.deleteFrom(BOARD).where(BOARD.USER_ID.eq(vsajja.userId)).execute()
         context.deleteFrom(USER).where(USER.USERNAME.equal(TEST_USER_VSAJJA_USERNAME)).execute()
     }
@@ -80,6 +85,43 @@ public class BoardSpec extends TrelloCloneSpec {
         userBoards.collect { it.name }.contains(TEST_BOARD_WELCOME_NAME)
     }
 
+    def "get welcome board by id"() {
+        setup:
+        welcomeBoard = getBoard(TEST_BOARD_WELCOME_NAME)
+
+        when:
+        get("api/v1/boards/${welcomeBoard.boardId}")
+
+        then:
+        response.statusCode == HttpResponseStatus.OK.code()
+        def result = new JsonSlurper().parseText(response.body.text)
+        result.name == TEST_BOARD_WELCOME_NAME
+    }
+
+    def "get a board that doesn't exist (not found)"() {
+        when:
+        delete("api/v1/boards/-1")
+
+        then:
+        response.statusCode == HttpResponseStatus.NOT_FOUND.code()
+    }
+
+    def "delete welcome board by id"() {
+        when:
+        delete("api/v1/boards/${welcomeBoard.boardId}")
+
+        then:
+        response.statusCode == HttpResponseStatus.OK.code()
+    }
+
+    def "delete a board that doesn't exist (not found)"() {
+        when:
+        delete("api/v1/boards/-1")
+
+        then:
+        response.statusCode == HttpResponseStatus.NOT_FOUND.code()
+    }
+
     def "create an invalid board (bad request)"() {
         setup:
         createBoardRequestSpec(null)
@@ -103,7 +145,7 @@ public class BoardSpec extends TrelloCloneSpec {
         response.statusCode == HttpResponseStatus.OK.code()
 
         where:
-        boardName << [ 'BoardA', 'BoardB' , 'BoardC']
+        boardName << ['BoardA', 'BoardB', 'BoardC']
     }
 
     @Unroll
@@ -118,6 +160,10 @@ public class BoardSpec extends TrelloCloneSpec {
         userBoards.collect { it.name }.contains(boardName)
 
         where:
-        boardName << [ 'BoardA', 'BoardB' , 'BoardC']
+        boardName << ['BoardA', 'BoardB', 'BoardC']
+    }
+
+    def getBoard(String name) {
+        context.selectFrom(BOARD).where(BOARD.NAME.equal(name)).fetchInto(Board.class)
     }
 }

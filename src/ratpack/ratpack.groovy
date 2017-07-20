@@ -128,6 +128,31 @@ ratpack {
                 }
             }
 
+            path('boards/:boardId') {
+                def boardId = pathTokens['boardId']
+                byMethod {
+                    get {
+                        def board = trelloCloneService.getBoard(boardId)
+                        if(board) {
+                            render json(board)
+                        }
+                        else {
+                            clientError(404)
+                        }
+                    }
+
+                    delete {
+                        int result = trelloCloneService.deleteBoard(boardId)
+                        if(result > 0) {
+                            response.send()
+                        }
+                        else {
+                            clientError(404)
+                        }
+                    }
+                }
+            }
+
             path('users/:userId/teams') {
                 def userId = pathTokens['userId']
                 byMethod {
@@ -219,31 +244,6 @@ ratpack {
                 }
             }
 
-            path('boards/:boardId') {
-                def boardId = pathTokens['boardId']
-                byMethod {
-                    get {
-                        def board = trelloCloneService.getBoard(boardId)
-                        if(board) {
-                            render json(board)
-                        }
-                        else {
-                            clientError(404)
-                        }
-                    }
-
-                    delete {
-                        int result = trelloCloneService.deleteBoard(boardId)
-                        if(result > 0) {
-                            response.send()
-                        }
-                        else {
-                            clientError(404)
-                        }
-                    }
-                }
-            }
-
             path('boards/:boardId/lists') {
                 def boardId = pathTokens['boardId']
                 byMethod {
@@ -277,11 +277,6 @@ ratpack {
                                 Integer listId = Integer.parseInt(id)
 
                                 list.cards.each { card ->
-//                                    log.info(card.cardId.toString())
-//                                    log.info(card.name)
-//                                    log.info(card.description)
-//                                    log.info(listId)
-
                                     Card cardToUpdate = new Card(card.cardId, card.name, card.description, listId)
                                     cardsToUpdate.add(cardToUpdate)
                                 }

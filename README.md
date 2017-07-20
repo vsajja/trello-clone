@@ -31,8 +31,8 @@ The purpose of this project is to create a simple Trello clone for demonstration
 #### board
 - **[<code>GET</code> users/:user_id/boards](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/GET_user_boards.md)**
 - **[<code>POST</code> users/:user_id/boards](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/POST_user_boards.md)**
-- **[<code>GET</code> boards/:board_id]()**
-- **[<code>DELETE</code> boards/:board_id]()**
+- **[<code>GET</code> boards/:board_id](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/)**
+- **[<code>DELETE</code> boards/:board_id](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/)**
 - **[<code>POST</code> teams/:team_id/boards]()**
 
 #### board_list
