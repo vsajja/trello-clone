@@ -24,7 +24,7 @@ A JSON object containing the registered user.
 
 ***
 
-## Return Codes
+## Return codes
 
 - **200 Success** — User has been successfully logged in.
 - **400 Bad Request** — Invalid parameters.

@@ -18,7 +18,7 @@
 
 ***
 
-## Errors
+## Return codes
 
 ***
 

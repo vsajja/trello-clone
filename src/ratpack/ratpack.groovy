@@ -55,8 +55,9 @@ ratpack {
                     def username = params.get('username')?.textValue()
                     def password = params.get('password')?.textValue()
 
-                    assert username
-                    assert password
+                    if(!username || !password) {
+                        clientError(400)
+                    }
 
                     trelloCloneService.registerUser(username, password)
                 }.onError { Throwable e ->
@@ -74,8 +75,9 @@ ratpack {
                     def username = params.get('username')?.textValue()
                     def password = params.get('password')?.textValue()
 
-                    assert username
-                    assert password
+                    if(!username || !password) {
+                        clientError(400)
+                    }
 
                     trelloCloneService.login(username, password)
                 }.onError { Throwable e ->

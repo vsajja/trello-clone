@@ -1,6 +1,7 @@
 package org.trelloclone
 
 import groovy.json.JsonOutput
+import io.netty.handler.codec.http.HttpResponseStatus
 import jooq.generated.tables.pojos.User
 import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
 import ratpack.http.client.RequestSpec
@@ -47,9 +48,8 @@ public class UserSpec extends TrelloCloneSpec {
         post('api/v1/register')
 
         then:
-        response.statusCode == 200
+        response.statusCode == HttpResponseStatus.OK.code()
         userDao.count() == old(userDao.count()) + 1
-        println response.body.text
     }
 
     def "get vsajja"() {
@@ -61,7 +61,7 @@ public class UserSpec extends TrelloCloneSpec {
         vsajja.userId
     }
 
-    def "register vsajja again"() {
+    def "register vsajja again (conflict)"() {
         setup:
         requestSpec { RequestSpec request ->
             request.body.type('application/json')
@@ -75,7 +75,24 @@ public class UserSpec extends TrelloCloneSpec {
         post('api/v1/register')
 
         then:
-        response.statusCode == 409
+        response.statusCode == HttpResponseStatus.CONFLICT.code()
+        userDao.count() == old(userDao.count())
+    }
+
+    def "register vsajja with invalid params (bad request)"() {
+        setup:
+        requestSpec { RequestSpec request ->
+            request.body.type('application/json')
+            request.body.text(JsonOutput.toJson(
+                    [username: TEST_USER_VSAJJA_USERNAME])
+            )
+        }
+
+        when:
+        post('api/v1/register')
+
+        then:
+        response.statusCode == HttpResponseStatus.BAD_REQUEST.code()
         userDao.count() == old(userDao.count())
     }
 
@@ -93,10 +110,10 @@ public class UserSpec extends TrelloCloneSpec {
         post('api/v1/login')
 
         then:
-        response.statusCode == 200
+        response.statusCode == HttpResponseStatus.OK.code()
     }
 
-    def "login vsajja with invalid credentials"() {
+    def "login vsajja with invalid credentials (unauthorized)"() {
         setup:
         requestSpec { RequestSpec request ->
             request.body.type('application/json')
@@ -110,6 +127,22 @@ public class UserSpec extends TrelloCloneSpec {
         post('api/v1/login')
 
         then:
-        response.statusCode == 401
+        response.statusCode == HttpResponseStatus.UNAUTHORIZED.code()
+    }
+
+    def "login vsajja with invalid params (bad reqeust)"() {
+        setup:
+        requestSpec { RequestSpec request ->
+            request.body.type('application/json')
+            request.body.text(JsonOutput.toJson(
+                    [username: TEST_USER_VSAJJA_USERNAME])
+            )
+        }
+
+        when:
+        post('api/v1/login')
+
+        then:
+        response.statusCode == HttpResponseStatus.BAD_REQUEST.code()
     }
 }
