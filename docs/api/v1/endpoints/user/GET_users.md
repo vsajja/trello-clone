@@ -1,4 +1,4 @@
-# Register User
+# User
 
     GET users
 
@@ -8,10 +8,6 @@ Get all trello-clone users.
 ***
 
 ## Requires authentication
-
-***
-
-## Parameters
 
 ***
 
