@@ -111,7 +111,10 @@ ratpack {
                     post {
                         parse(jsonNode()).map { params ->
                             def name = params.get('name')?.textValue()
-                            assert name
+
+                            if(!name) {
+                                clientError(400)
+                            }
 
                             trelloCloneService.createBoard(userId, name)
                         }.onError { Throwable e ->

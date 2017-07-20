@@ -29,12 +29,11 @@ The purpose of this project is to create a simple Trello clone for demonstration
 - **[<code>GET</code> users](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/GET_users.md)**
 
 #### board
-- **[<code>GET</code> users/:user_id/boards]()**
-- **[<code>POST</code> users/:user_id/boards]()**
-- **[<code>GET</code> users/:user_id/teams]()**
-- **[<code>POST</code> users/:user_id/teams]()**
+- **[<code>GET</code> users/:user_id/boards](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/GET_user_boards.md)**
+- **[<code>POST</code> users/:user_id/boards](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/board/POST_user_boards.md)**
 - **[<code>GET</code> boards/:board_id]()**
 - **[<code>DELETE</code> boards/:board_id]()**
+- **[<code>POST</code> teams/:team_id/boards]()**
 
 #### board_list
 - **[<code>GET</code> boards/:board_id/lists]()**
@@ -47,7 +46,8 @@ The purpose of this project is to create a simple Trello clone for demonstration
 - **[<code>DELETE</code> cards/:card_id]()**
 
 #### team
-- **[<code>POST</code> teams/:team_id/boards]()**
+- **[<code>GET</code> users/:user_id/teams]()**
+- **[<code>POST</code> users/:user_id/teams]()**
 - **[<code>GET</code> teams/:team_id/members]()**
 - **[<code>POST</code> teams/:team_id/members]()**
 

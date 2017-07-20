@@ -1,6 +1,5 @@
 package org.trelloclone
 
-import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -23,8 +22,8 @@ public class UserSpec extends TrelloCloneSpec {
     @Delegate
     TestHttpClient httpClient = sut.httpClient
 
-    static final String TEST_USER_VSAJJA_USERNAME = this.getClass().getSimpleName() +  '_test_user_vsajja'
-    static final String TEST_USER_VSAJJA_PASSWORD = this.getClass().getSimpleName() +  '_test_user_vsajja_password'
+    static final String TEST_USER_VSAJJA_USERNAME = 'UserSpec_test_user_vsajja'
+    static final String TEST_USER_VSAJJA_PASSWORD = 'UserSpec_test_user_vsajja_password'
 
     @Shared
     User vsajja
@@ -38,7 +37,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "register vsajja"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
 
         when:
         post('api/v1/register')
@@ -59,7 +58,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "register vsajja again (conflict)"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
 
         when:
         post('api/v1/register')
@@ -71,7 +70,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "register vsajja with invalid params (bad request)"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, null)
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, null)
 
         when:
         post('api/v1/register')
@@ -83,7 +82,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "login vsajja"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, TEST_USER_VSAJJA_PASSWORD)
 
         when:
         post('api/v1/login')
@@ -94,7 +93,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "login vsajja with invalid credentials (unauthorized)"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, 'wrong password')
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, 'wrong password')
 
         when:
         post('api/v1/login')
@@ -105,7 +104,7 @@ public class UserSpec extends TrelloCloneSpec {
 
     def "login vsajja with invalid params (bad reqeust)"() {
         setup:
-        createRequestSpec(TEST_USER_VSAJJA_USERNAME, null)
+        createUserRequestSpec(TEST_USER_VSAJJA_USERNAME, null)
 
         when:
         post('api/v1/login')
@@ -122,21 +121,5 @@ public class UserSpec extends TrelloCloneSpec {
         response.statusCode == HttpResponseStatus.OK.code()
         def users = new JsonSlurper().parseText(response.body.text)
         users.collect { it.username }.contains(TEST_USER_VSAJJA_USERNAME)
-    }
-
-    /**
-     * Creates a request spec for the register and login endpoints
-     * @param username
-     * @param password
-     * @return
-     */
-    def createRequestSpec(String username, String password) {
-        requestSpec { RequestSpec request ->
-            request.body.type('application/json')
-            request.body.text(JsonOutput.toJson(
-                    [username: username,
-                     password: password])
-            )
-        }
     }
 }
