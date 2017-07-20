@@ -8,7 +8,6 @@ Attempt to login a trello-clone user.
 ***
 
 ## Requires authentication
-TODO
 
 ***
 

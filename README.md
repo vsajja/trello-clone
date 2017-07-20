@@ -26,11 +26,7 @@ The purpose of this project is to create a simple Trello clone for demonstration
 #### user
 - **[<code>POST</code> register](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/POST_register.md)**
 - **[<code>POST</code> login](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/POST_login.md)**
-- **[<code>GET</code> users]()**
-- **[<code>GET</code> users/:user_id/boards]()**
-- **[<code>POST</code> users/:user_id/boards]()**
-- **[<code>GET</code> users/:user_id/teams]()**
-- **[<code>POST</code> users/:user_id/teams]()**
+- **[<code>GET</code> users](https://github.com/vsajja/trello-clone/blob/master/docs/api/v1/endpoints/user/GET_users.md)**
 
 #### team
 - **[<code>POST</code> teams/:team_id/boards]()**
@@ -41,6 +37,10 @@ The purpose of this project is to create a simple Trello clone for demonstration
 - **[<code>DELETE</code> teams/members/:team_member_id]()**
 
 #### board
+- **[<code>GET</code> users/:user_id/boards]()**
+- **[<code>POST</code> users/:user_id/boards]()**
+- **[<code>GET</code> users/:user_id/teams]()**
+- **[<code>POST</code> users/:user_id/teams]()**
 - **[<code>GET</code> boards/:board_id]()**
 - **[<code>DELETE</code> boards/:board_id]()**
 

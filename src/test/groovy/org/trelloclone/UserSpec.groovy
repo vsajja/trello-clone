@@ -1,6 +1,8 @@
 package org.trelloclone
 
+import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
 import jooq.generated.tables.pojos.User
 import ratpack.groovy.test.GroovyRatpackMainApplicationUnderTest
@@ -21,8 +23,8 @@ public class UserSpec extends TrelloCloneSpec {
     @Delegate
     TestHttpClient httpClient = sut.httpClient
 
-    static final String TEST_USER_VSAJJA_USERNAME = 'test_user_vsajja'
-    static final String TEST_USER_VSAJJA_PASSWORD = 'test_user_vsajja_password'
+    static final String TEST_USER_VSAJJA_USERNAME = this.getClass().getSimpleName() +  '_test_user_vsajja'
+    static final String TEST_USER_VSAJJA_PASSWORD = this.getClass().getSimpleName() +  '_test_user_vsajja_password'
 
     @Shared
     User vsajja
@@ -144,5 +146,15 @@ public class UserSpec extends TrelloCloneSpec {
 
         then:
         response.statusCode == HttpResponseStatus.BAD_REQUEST.code()
+    }
+
+    def "get users"() {
+        when:
+        get('api/v1/users')
+
+        then:
+        response.statusCode == HttpResponseStatus.OK.code()
+        def users = new JsonSlurper().parseText(response.body.text)
+        users.collect { it.username }.contains(TEST_USER_VSAJJA_USERNAME)
     }
 }

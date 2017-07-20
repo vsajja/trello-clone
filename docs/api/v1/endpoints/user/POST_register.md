@@ -8,7 +8,6 @@ Registers a trello-clone user.
 ***
 
 ## Requires authentication
-TODO
 
 ***
 
