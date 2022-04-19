@@ -145,3 +145,7 @@ Running back-end tests:
 
 # Heroku
 https://trello-clone-app.herokuapp.com
+
+# Video Demos
+* https://www.youtube.com/watch?v=0JLktlVDuUA
+* https://www.youtube.com/watch?v=htQJOLdOvjw
